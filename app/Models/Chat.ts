@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import EjecucionServicio from './EjecucionServicio'
 import Mensaje from './Mensaje'
 
 export default class Chat extends BaseModel {
@@ -7,10 +8,15 @@ export default class Chat extends BaseModel {
   public id: number
   
   @column()
-  public chat: string
+  public Eservicio_id: string
 
-  @hasMany(() => Mensaje,{
-   foreignKey: 'chats_id',
+  @belongsTo(() => EjecucionServicio,{
+    foreignKey: 'Eservicio_id',
+  })
+  public ejecicuionservicios: BelongsTo<typeof EjecucionServicio> 
+
+  @hasMany(() => Mensaje, {
+    foreignKey: 'chat_id'
   })
   public mensajes: HasMany<typeof Mensaje>
 

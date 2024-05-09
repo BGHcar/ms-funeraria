@@ -3,6 +3,8 @@ import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis
 import Traslado from './Traslado'
 import Sepultura from './Sepultura'
 import Cremacion from './Cremacion'
+import EjecucionServicio from './EjecucionServicio'
+import ServicioxPlan from './ServicioxPlan'
 
 export default class Servicio extends BaseModel {
   @column({ isPrimary: true })
@@ -20,14 +22,30 @@ export default class Servicio extends BaseModel {
   @column()
   public duracion : string
 
-  @hasMany(() => Traslado)
+  @hasMany(() => Traslado, {
+    foreignKey: 'servicio_id'
+  })
   public traslados: HasMany<typeof Traslado>
 
-  @hasOne(() => Sepultura)
+  @hasOne(() => Sepultura, {
+    foreignKey: 'servicio_id'
+  })
   public sepultura: HasOne<typeof Sepultura>
 
-  @hasOne(() => Cremacion)
+  @hasOne(() => Cremacion, {
+    foreignKey: 'servicio_id'
+  })
   public cremacion: HasOne<typeof Cremacion>
+  
+  @hasMany(() => EjecucionServicio, {
+    foreignKey: 'servicio_id'
+  })
+  public ejecucionservicios: HasMany<typeof EjecucionServicio>
+
+  @hasMany(() => ServicioxPlan, {
+    foreignKey: 'servicio_id'
+  })
+  public serviciosxplanes: HasMany<typeof ServicioxPlan>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

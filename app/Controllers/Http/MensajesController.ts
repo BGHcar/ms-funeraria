@@ -17,7 +17,7 @@ export default class MensajesController {
         return mensaje
     }
 
-    // Get 
+    // Get by id
 
     public async findById({ params }: HttpContextContract) {
         const theMensaje = await Mensaje.findOrFail(params.id)
@@ -29,7 +29,7 @@ export default class MensajesController {
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theMensaje = await Mensaje.findOrFail(params.id)
-        theMensaje.mensajes = body.mensaje
+        theMensaje.contenido = body.mensaje
         return theMensaje.save()
     }
 

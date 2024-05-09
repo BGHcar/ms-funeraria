@@ -24,25 +24,11 @@ export default class ChatsController {
         const theChat = await Chat.findOrFail(params.id)
         return theChat
     }
-
-    // Update  id
-
-    public async update({ params, request }: HttpContextContract) {
-        const body = request.body()
-        const theChat = await Chat.findOrFail(params.id)
-        theChat.chat = body.chat
-     
-        return theChat.save()
-    }
-
     // Delete a client by id
 
     public async delete({ params, response }: HttpContextContract) {
         const theChat = await Chat.findOrFail(params.id)
         response.status(204)
         return await theChat.delete()
-    }
-    public async shwo({params}:HttpContextContract){
-        return Chat.query().where("id",params.id).preload('mensajes');
     }
 }
