@@ -1,38 +1,53 @@
- import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Comentario from 'App/Models/Comentario';
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Comentario from 'App/Models/Comentario'
 
-export default class ComentrariosController {
-    //Create
-    public async store({request}:HttpContextContract){
-     const body = request.body();
-     const theComentario=await Comentario.create(body);
-     return theComentario
+
+export default class EjecucionServiciosController {
+
+    // Create a new Comentario
+    public async create({ request }: HttpContextContract) {
+        let body = request.body()
+        const theComentario = await Comentario.create(body)
+        return theComentario
     }
-        
-    //Get
+
+    // Get all Comentarios
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let comentario:Comentario[] = await Comentario.query().paginate(page, perPage)
-        return comentario
+        let comentarios:Comentario[] = await Comentario.query().paginate(page, perPage)
+        return comentarios
     }
-    //get comentarios id
+
+    // Get a Comentario by id
+
     public async findById({ params }: HttpContextContract) {
         const theComentario = await Comentario.findOrFail(params.id)
         return theComentario
     }
-    //upDate pro id
+
+    public async findByServicioId({ params }: HttpContextContract) {
+        // Encuentra los comentarios por el ID de la llave foránea Eservicio_id
+        const comentarios = await Comentario.query().where('Eservicio_id', params.id).exec()
+        return comentarios
+    }
+
+
+    // Update a comentario by id
+
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theComentario = await Comentario.findOrFail(params.id)
-        theComentario.comentario = body.comentario
+        theComentario.contenido = body.contenido
         return theComentario.save()
     }
 
-    //detele
+    // Delete a driver by id
+
     public async delete({ params, response }: HttpContextContract) {
         const theComentario = await Comentario.findOrFail(params.id)
         response.status(204)
         return await theComentario.delete()
     }
+
 }

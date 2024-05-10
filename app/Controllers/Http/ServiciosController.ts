@@ -26,7 +26,7 @@ export default class ServiciosController {
         return theServicio
     }
 
-    // Update a client by id
+    // Update a servicios by id
 
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
@@ -38,7 +38,7 @@ export default class ServiciosController {
         return theServicio.save()
     }
     
-    // Delete a client by id
+    // Delete a servicios by id
 
     public async delete({ params, response }: HttpContextContract) {
         const theServicio = await Servicio.findOrFail(params.id)

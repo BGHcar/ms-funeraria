@@ -4,6 +4,5 @@ Route.group(() => {
     Route.get("/chats", "ChatsController.findAll");
     Route.get("/chats/:id", "ChatsController.findById");
     Route.post("/chats", "ChatsController.create");
-    Route.put("/chats/:id", "ChatsController.update");
     Route.delete("/chats/:id", "ChatsController.delete");
 })
