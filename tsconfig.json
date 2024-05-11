@@ -8,6 +8,8 @@
     "build"
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "build",
     "rootDir": "./",
     "baseUrl": "./",

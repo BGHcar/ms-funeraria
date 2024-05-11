@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Sede from 'App/Models/Sede'
+import SedeValidator from 'App/Validators/SedeValidator'
 
 export default class SedesController {
 
@@ -17,10 +18,10 @@ export default class SedesController {
 
 
     // Create a new sede
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theSede = await Sede.create(body)
-        return theSede
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(SedeValidator)
+        const theSede = await Sede.create(data)
+        return response.json(theSede)
     }
 
     // Get all sedes

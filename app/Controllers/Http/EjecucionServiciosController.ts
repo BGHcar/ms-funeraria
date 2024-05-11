@@ -66,7 +66,7 @@ export default class EjecucionServiciosController {
                 plainText: "Se ha creado una ejecución de servicio.",
             },
             recipients: {
-                to: [{ address: "bryan199707@hotmail.com" }],
+                to: [{ address: "sr.macm@gmail.com" }],
             },
         };
 

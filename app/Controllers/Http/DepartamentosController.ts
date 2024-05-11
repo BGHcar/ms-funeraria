@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Departamento from 'App/Models/Departamento'
+import DepartamentoValidator from 'App/Validators/DepartamentoValidator'
 
 export default class DepartamentosController {
 
@@ -12,10 +13,10 @@ export default class DepartamentosController {
     */
 
     // Create a new Departament
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theDepartamento = await Departamento.create(body)
-        return theDepartamento
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(DepartamentoValidator)
+        const theDepartamento = await Departamento.create(data)
+        return response.json(theDepartamento)
     }
 
     // Get all Departament
