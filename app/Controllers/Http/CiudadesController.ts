@@ -1,6 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Ciudad from 'App/Models/Ciudad'
-import CiudadValidator from 'App/Validators/CiudadValidator'
 
 
 export default class CiudadesController {
