@@ -1,14 +1,14 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Cliente from 'App/Models/Cliente'
+import ClienteValidator from 'App/Validators/ClienteValidator'
 
 export default class ClientesController {
 
     // Create a new client
-
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theCliente = await Cliente.create(body)
-        return theCliente
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(ClienteValidator)
+        const theCliente = await Cliente.create(data)
+        return response.json(theCliente)
     }
 
     // Get all clients
