@@ -10,6 +10,9 @@ export default class extends BaseSchema {
       table.string('apellido', 255).notNullable()
       table.string('cedula', 255).notNullable()
       table.string('telefono', 255).notNullable()
+      table.string('email', 255).notNullable()
+      table.string('password', 255).notNullable()
+      table.string('user_id', 255).notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -13,10 +13,13 @@ export default class Administrador extends BaseModel {
   public email: string
 
   @column()
+  public password: string
+
+  @column()
   public age: number
 
   @column()
-  public usuario_id: number
+  public user_id: string
 
 
   @column.dateTime({ autoCreate: true })

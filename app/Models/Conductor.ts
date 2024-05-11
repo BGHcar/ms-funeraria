@@ -19,7 +19,13 @@ export default class Conductor extends BaseModel {
   public telefono: string
 
   @column()
-  public usuario_id: number
+  public email: string
+
+  @column()
+  public password: string
+
+  @column()
+  public user_id: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

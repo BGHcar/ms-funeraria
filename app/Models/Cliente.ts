@@ -24,9 +24,12 @@ export default class Cliente extends BaseModel {
 
   @column()
   public email: string
+  
+  @column()
+  public password: string
 
   @column()
-  public usuario_id: number
+  public user_id: string
 
   @hasOne(() => Titular, {
     foreignKey: 'cliente_id'
