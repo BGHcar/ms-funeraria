@@ -1,9 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, HasOne, ManyToMany, column, hasMany, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Titular from './Titular'
 import Beneficiario from './Beneficiario'
 import EjecucionServicio from './EjecucionServicio'
 import Suscripcion from './Suscripcion'
+import Servicio from './Servicio'
+import Plan from './Plan'
 
 export default class Cliente extends BaseModel {
   table = 'clientes'
@@ -41,15 +43,20 @@ export default class Cliente extends BaseModel {
   })
   public beneficiarios: HasMany<typeof Beneficiario>
 
-  @hasMany(() => EjecucionServicio, {
-    foreignKey: 'cliente_id'
+  @manyToMany(() => Servicio, {
+    pivotTable: 'ejecucion_servicios',
+    pivotForeignKey: 'cliente_id',
+    pivotRelatedForeignKey: 'servicio_id'
   })
-  public ejecucionservicios: HasMany<typeof EjecucionServicio>
+  public servicios: ManyToMany<typeof Servicio>
 
-  @hasMany(() => Suscripcion, {
-    foreignKey: 'cliente_id'
+
+  @manyToMany(() => Plan, {
+    pivotTable: 'suscripciones',
+    pivotForeignKey: 'cliente_id',
+    pivotRelatedForeignKey: 'plan_id'
   })
-  public suscripciones: HasMany<typeof Suscripcion>
+  public planes: ManyToMany<typeof Plan>
 
   
   @column.dateTime({ autoCreate: true })

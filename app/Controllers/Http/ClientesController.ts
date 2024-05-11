@@ -16,14 +16,15 @@ export default class ClientesController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let clientes:Cliente[] = await Cliente.query().paginate(page, perPage)
+        let clientes:Cliente[] = await Cliente.query().preload('servicios').preload('planes').paginate(page, perPage)
         return clientes
     }
+
 
     // Get a client by id
 
     public async findById({ params }: HttpContextContract) {
-        const theCliente = await Cliente.findOrFail(params.id)
+        let theCliente : Cliente = await Cliente.query().where('id', params.id).preload('servicios').preload('planes').firstOrFail()
         return theCliente
     }
 

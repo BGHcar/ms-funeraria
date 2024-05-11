@@ -14,7 +14,7 @@ export default class PlanesController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let planes:Plan[] = await Plan.query().paginate(page, perPage)
+        let planes:Plan[] = await Plan.query().preload('servicios').preload('clientes').paginate(page, perPage)
         return planes
     }
 
@@ -22,7 +22,7 @@ export default class PlanesController {
 
     public async findById({ params }:
         HttpContextContract) {
-        const thePlan = await Plan.findOrFail(params.id)
+        let thePlan : Plan = await Plan.query().where('id', params.id).preload('servicios').preload('clientes').firstOrFail()
         return thePlan
     }
 

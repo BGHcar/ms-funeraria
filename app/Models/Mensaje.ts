@@ -10,7 +10,7 @@ export default class Mensaje extends BaseModel {
   public contenido: string
 
   @column()
-  public user_id: number
+  public user_id: string
 
   @column()
   public chat_id: number
@@ -18,7 +18,7 @@ export default class Mensaje extends BaseModel {
   @belongsTo(() => Chat,{
     foreignKey: 'chat_id',
   })
-  public chats: BelongsTo<typeof Chat> 
+  public chat: BelongsTo<typeof Chat> 
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -8,12 +8,12 @@ export default class Chat extends BaseModel {
   public id: number
   
   @column()
-  public Eservicio_id: string
+  public eservicio_id: number
 
   @belongsTo(() => EjecucionServicio,{
-    foreignKey: 'Eservicio_id',
+    foreignKey: 'eservicio_id',
   })
-  public ejecicuionservicios: BelongsTo<typeof EjecucionServicio> 
+  public ejecucionservicio: BelongsTo<typeof EjecucionServicio> 
 
   @hasMany(() => Mensaje, {
     foreignKey: 'chat_id'

@@ -14,7 +14,7 @@ export default class ServiciosxplanesController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let serviciosxplanes:ServicioxPlan[] = await ServicioxPlan.query().paginate(page, perPage)
+        let serviciosxplanes:ServicioxPlan[] = await ServicioxPlan.query().preload('servicio').preload('plan').paginate(page, perPage)
         return serviciosxplanes
     }
 
@@ -22,7 +22,7 @@ export default class ServiciosxplanesController {
 
     public async findById({ params }:
         HttpContextContract) {
-        const theServicioxPlan = await ServicioxPlan.findOrFail(params.id)
+        let theServicioxPlan : ServicioxPlan = await ServicioxPlan.query().where('id', params.id).preload('servicio').preload('plan').firstOrFail()
         return theServicioxPlan
     }
 

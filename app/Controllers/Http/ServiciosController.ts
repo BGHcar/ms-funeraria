@@ -12,17 +12,30 @@ export default class ServiciosController {
     }
 
     // Get all servicios
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let servicio:Servicio[] = await Servicio.query().paginate(page, perPage)
+        let servicio: Servicio[] = await Servicio.query()
+        .preload('planes')
+        .preload('clientes')
+        .preload('traslados')
+        .preload('sepultura')
+        .preload('cremacion')
+        .paginate(page, perPage)
         return servicio
     }
 
     // Get a servio by id
 
     public async findById({ params }: HttpContextContract) {
-        const theServicio = await Servicio.findOrFail(params.id)
+        let theServicio: Servicio = await Servicio.query()
+            .where('id', params.id)
+            .preload('planes')
+            .preload('clientes')
+            .preload('traslados')
+            .preload('sepultura')
+            .preload('cremacion')
+            .firstOrFail()
         return theServicio
     }
 
@@ -37,7 +50,7 @@ export default class ServiciosController {
         theServicio.duracion = body.duracion
         return theServicio.save()
     }
-    
+
     // Delete a servicios by id
 
     public async delete({ params, response }: HttpContextContract) {
