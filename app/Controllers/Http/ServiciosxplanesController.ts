@@ -3,6 +3,15 @@ import ServicioxPlan from 'App/Models/ServicioxPlan'
 
 export default class ServiciosxplanesController {
 
+    /*
+
+    El modelo de serviciosxplanes tiene la siguiente estructura:
+
+    servicio_id: number
+    plan_id: number
+
+    */
+
     // Create 
     public async create({ request }: HttpContextContract) {
         let body = request.body()

@@ -3,6 +3,17 @@ import Sala from 'App/Models/Sala'
 
 export default class SalasController {
 
+    /*
+
+    El modelo de salas tiene la siguiente estructura:
+
+    nombre: string
+    capacidad: number
+    disponibilidad: boolean
+    sede_id: number
+
+    */
+
     // Create a new sede
     public async create({ request }: HttpContextContract) {
         let body = request.body()
@@ -33,7 +44,7 @@ export default class SalasController {
         theSala.nombre = body.nombre
         theSala.capacidad = body.capacidad
         theSala.disponibilidad = body.disponibilidad
-        theSala.sedes_id = body.sede_id
+        theSala.sede_id = body.sede_id
         return theSala.save()
     }
 

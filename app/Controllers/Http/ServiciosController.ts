@@ -3,6 +3,17 @@ import Servicio from 'App/Models/Servicio'
 
 export default class ServiciosController {
 
+    /*
+
+    El modelo de servicios tiene la siguiente estructura:
+
+    nombre: string
+    precio: number
+    descripcion: string
+    duracion: number
+
+    */
+
     //create a new servicio
 
     public async create({ request }: HttpContextContract) {

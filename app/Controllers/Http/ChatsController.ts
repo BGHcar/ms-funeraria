@@ -2,6 +2,13 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Chat from 'App/Models/Chat'
 
 export default class ChatsController {
+
+    /*
+    El modelo de chats tiene la siguiente estructura:
+
+    eservicio_id: number
+
+    */ 
     // Create 
 
     public async create({ request }: HttpContextContract) {
@@ -20,7 +27,7 @@ export default class ChatsController {
     }
       // Get  id
 
-      public async findById({ params }: HttpContextContract) {
+    public async findById({ params }: HttpContextContract) {
         let theChat : Chat = await Chat.query().where('id', params.id).preload('mensajes').firstOrFail()
         return theChat
     }

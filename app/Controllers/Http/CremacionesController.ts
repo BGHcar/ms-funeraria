@@ -3,6 +3,15 @@ import Cremacion from 'App/Models/Cremacion'
 
 export default class CremacionesController {
 
+    /*
+    El modelo de cremaciones tiene la siguiente estructura:
+
+    ubicacion: string
+    fecha_hora: string
+    servicio_id: number
+
+    */
+
     //create a new cremacion
 
     public async create({ request }: HttpContextContract) {

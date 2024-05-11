@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.integer('capacidad').notNullable
       table.boolean('disponibilidad').notNullable
       //Foreing Key
-      table.integer('sedes_id').unsigned()
+      table.integer('sede_id').unsigned()
                                       .references('sedes.id')
                                       .notNullable()
 

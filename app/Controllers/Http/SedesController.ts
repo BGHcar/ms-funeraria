@@ -3,6 +3,19 @@ import Sede from 'App/Models/Sede'
 
 export default class SedesController {
 
+    /*
+
+    El modelo de sedes tiene la siguiente estructura:
+
+    nombre: string
+    direccion: string
+    telefono: number
+    correo_electronico: string
+    ciudad_id: number
+
+    */
+
+
     // Create a new sede
     public async create({ request }: HttpContextContract) {
         let body = request.body()
@@ -11,10 +24,10 @@ export default class SedesController {
     }
 
     // Get all sedes
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let sedes:Sede[] = await Sede.query().paginate(page, perPage)
+        let sedes: Sede[] = await Sede.query().paginate(page, perPage)
         return sedes
     }
 

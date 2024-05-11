@@ -6,6 +6,15 @@ export default class Pago extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public monto: number
+
+  @column()
+  public fecha: DateTime
+
+  @column()
+  public suscripcion_id: number
+
   @belongsTo(() => Suscripcion,{
     foreignKey: 'suscripcion_id',
   })

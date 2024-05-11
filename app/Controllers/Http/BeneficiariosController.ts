@@ -3,6 +3,18 @@ import Beneficiario from 'App/Models/Beneficiario'
 
 export default class BeneficiariosController {
 
+    /*
+    El modelo de beneficiarios tiene la siguiente estructura:
+
+    nombre: string
+    apellido: string
+    cedula: string
+    telefono: string
+    titular_id: number
+    cliente_id: number
+
+    */
+
     // Create a new beneficiary
 
     public async create({ request }: HttpContextContract) {

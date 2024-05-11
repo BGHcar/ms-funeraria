@@ -3,6 +3,15 @@ import Suscripcion from 'App/Models/Suscripcion'
 
 export default class SuscripcionesController {
 
+    /*
+    
+    El modelo de suscripciones tiene la siguiente estructura:
+
+    plan_id: number
+    cliente_id: number
+
+    */
+
     // Create 
     public async create({ request }: HttpContextContract) {
         let body = request.body()

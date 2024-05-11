@@ -4,6 +4,14 @@ import Comentario from 'App/Models/Comentario'
 
 export default class EjecucionServiciosController {
 
+    /*
+    El modelo de comentarios tiene la siguiente estructura:
+
+    contenido: string
+    Eservicio_id: number
+
+    */
+
     // Create a new Comentario
     public async create({ request }: HttpContextContract) {
         let body = request.body()

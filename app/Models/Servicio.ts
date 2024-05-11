@@ -3,8 +3,6 @@ import { BaseModel, HasMany, HasOne, ManyToMany, column, hasMany, hasOne, manyTo
 import Traslado from './Traslado'
 import Sepultura from './Sepultura'
 import Cremacion from './Cremacion'
-import EjecucionServicio from './EjecucionServicio'
-import ServicioxPlan from './ServicioxPlan'
 import Cliente from './Cliente'
 import Plan from './Plan'
 

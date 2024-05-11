@@ -7,6 +7,14 @@ const client = new EmailClient(connectionString);
 
 export default class EjecucionServiciosController {
 
+    /*
+    El modelo de ejecucion_servicios tiene la siguiente estructura:
+
+    cliente_id: number
+    servicio_id: number
+    */
+
+
 
 
     // Create a new Ejecucion Servicio

@@ -3,18 +3,26 @@ import Departamento from 'App/Models/Departamento'
 
 export default class DepartamentosController {
 
-     // Create a new Departament
-     public async create({ request }: HttpContextContract) {
+    /*
+
+    El modelo de departamentos tiene la siguiente estructura:
+
+    nombre: string
+
+    */
+
+    // Create a new Departament
+    public async create({ request }: HttpContextContract) {
         let body = request.body()
         const theDepartamento = await Departamento.create(body)
         return theDepartamento
     }
 
     // Get all Departament
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let departamentos:Departamento[] = await Departamento.query().paginate(page, perPage)
+        let departamentos: Departamento[] = await Departamento.query().paginate(page, perPage)
         return departamentos
     }
 

@@ -3,6 +3,19 @@ import Titular from 'App/Models/Titular'
 
 
 export default class TitularesController {
+
+    /*
+
+    El modelo de titulares tiene la siguiente estructura:
+
+    nombre: string
+    apellido: string
+    cedula: string
+    telefono: number
+    cliente_id: number
+    usuario_id: number
+
+    */
     
         // Create a new owner
     

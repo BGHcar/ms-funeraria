@@ -2,21 +2,32 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Traslado from 'App/Models/Traslado'
 
 export default class TrasladosController {
-     
+
+    /*
+
+    El modelo de traslados tiene la siguiente estructura:
+
+    origen: string
+    destino: string
+    fecha_hora: DateTime
+    servicio_id: number
+    
+    */
+
     //create a new traslado
 
-     public async create({ request }: HttpContextContract) {
+    public async create({ request }: HttpContextContract) {
         let body = request.body()
         const theTraslado = await Traslado.create(body)
         return theTraslado
     }
 
     // Get all traslados
-    
-    public async findAll({request}: HttpContextContract) {
+
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let traslado:Traslado[] = await Traslado.query().paginate(page, perPage)
+        let traslado: Traslado[] = await Traslado.query().paginate(page, perPage)
         return traslado
     }
 
@@ -35,10 +46,9 @@ export default class TrasladosController {
         theTraslado.origen = body.origen
         theTraslado.destino = body.destino
         theTraslado.fecha_hora = body.fecha_hora
-        theTraslado.tipo_vehiculo = body.tipo_vehiculo
         return theTraslado.save()
     }
-    
+
     // Delete a traslados by id
 
     public async delete({ params, response }: HttpContextContract) {

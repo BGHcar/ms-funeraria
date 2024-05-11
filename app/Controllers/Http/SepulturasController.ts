@@ -3,6 +3,16 @@ import Sepultura from 'App/Models/Sepultura'
 
 export default class SepulturasController {
 
+    /*
+
+    El modelo de sepulturas tiene la siguiente estructura:
+
+    ubicacion: string
+    fecha_hora: DateTime
+    servicio_id: number
+
+    */
+
     //create a new sepultura
 
     public async create({ request }: HttpContextContract) {

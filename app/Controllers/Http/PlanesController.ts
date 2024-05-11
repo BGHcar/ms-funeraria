@@ -3,6 +3,19 @@ import Plan from 'App/Models/Plan'
 
 export default class PlanesController {
 
+    /*
+
+    El modelo de planes tiene la siguiente estructura:
+
+    nombre: string
+    precio: number
+    duracion: number
+    descuento: number
+    precio_final: number
+    estado: boolean
+        
+    */
+
     // Create 
     public async create({ request }: HttpContextContract) {
         let body = request.body()
@@ -11,10 +24,10 @@ export default class PlanesController {
     }
 
     // Get 
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let planes:Plan[] = await Plan.query().preload('servicios').preload('clientes').paginate(page, perPage)
+        let planes: Plan[] = await Plan.query().preload('servicios').preload('clientes').paginate(page, perPage)
         return planes
     }
 
@@ -22,7 +35,7 @@ export default class PlanesController {
 
     public async findById({ params }:
         HttpContextContract) {
-        let thePlan : Plan = await Plan.query().where('id', params.id).preload('servicios').preload('clientes').firstOrFail()
+        let thePlan: Plan = await Plan.query().where('id', params.id).preload('servicios').preload('clientes').firstOrFail()
         return thePlan
     }
 

@@ -3,6 +3,20 @@ import Conductor from 'App/Models/Conductor'
 
 export default class ConductoresController {
 
+    /*
+    El modelo de conductores tiene la siguiente estructura:
+
+    nombre: string
+    apellido: string
+    cedula: string
+    telefono: string
+    email: string
+    password: string
+    user_id: string
+
+    */
+
+
     // Create a new driver
 
     public async create({ request }: HttpContextContract) {
@@ -13,10 +27,10 @@ export default class ConductoresController {
 
     // Get all drivers
 
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let conductores:Conductor[] = await Conductor.query().paginate(page, perPage)
+        let conductores: Conductor[] = await Conductor.query().paginate(page, perPage)
         return conductores
     }
 

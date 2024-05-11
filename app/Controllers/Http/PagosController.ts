@@ -3,6 +3,15 @@ import Pago from 'App/Models/Pago'
 
 export default class PagosController {
 
+    /*
+    El modelo de pagos tiene la siguiente estructura:
+
+    monto: number
+    fecha: string
+    suscripcion_id: number
+
+    */
+
     // Create a new Payment
     public async create({ request }: HttpContextContract) {
         let body = request.body()
