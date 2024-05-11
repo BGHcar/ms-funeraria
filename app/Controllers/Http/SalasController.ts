@@ -1,13 +1,14 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Sala from 'App/Models/Sala'
+import SalaValidator from 'App/Validators/SalaValidator'
 
 export default class SalasController {
 
-    // Create a new sede
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theSala = await Sala.create(body)
-        return theSala
+    // Create a new salas
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(SalaValidator)
+        const theSala = await Sala.create(data)
+        return response.json(theSala)
     }
 
     // Get all sedes
