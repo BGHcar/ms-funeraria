@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('contenido')
-      table.integer('user_id')
+      table.string('user_id')
       //ForeingKey
       table.integer('chat_id').unsigned().references('chats.id').notNullable()
       /**

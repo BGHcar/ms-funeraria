@@ -14,7 +14,7 @@ export default class SuscripcionesController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let suscripciones:Suscripcion[] = await Suscripcion.query().paginate(page, perPage)
+        let suscripciones:Suscripcion[] = await Suscripcion.query().preload('plan').preload('cliente').paginate(page, perPage)
         return suscripciones
     }
 
@@ -22,7 +22,7 @@ export default class SuscripcionesController {
 
     public async findById({ params }:
         HttpContextContract) {
-        const theSuscripcion = await Suscripcion.findOrFail(params.id)
+        let theSuscripcion : Suscripcion = await Suscripcion.query().where('id', params.id).preload('plan').preload('cliente').firstOrFail()
         return theSuscripcion
     }
 

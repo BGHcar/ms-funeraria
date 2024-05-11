@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('contenido')
 
       //ForeingKey
-      table.integer('Eservicio_id').unsigned().references('ejecucion_servicios.id').notNullable()
+      table.integer('eservicio_id').unsigned().references('ejecucion_servicios.id').notNullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

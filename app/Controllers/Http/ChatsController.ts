@@ -15,13 +15,13 @@ export default class ChatsController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let chat:Chat[] = await Chat.query().paginate(page, perPage)
+        let chat:Chat[] = await Chat.query().preload('mensajes').paginate(page, perPage)
         return chat
     }
       // Get  id
 
       public async findById({ params }: HttpContextContract) {
-        const theChat = await Chat.findOrFail(params.id)
+        let theChat : Chat = await Chat.query().where('id', params.id).preload('mensajes').firstOrFail()
         return theChat
     }
     // Delete a client by id

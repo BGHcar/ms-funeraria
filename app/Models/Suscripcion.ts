@@ -5,8 +5,15 @@ import Plan from './Plan'
 import Cliente from './Cliente'
 
 export default class Suscripcion extends BaseModel {
+  public static table = 'suscripciones'
   @column({ isPrimary: true })
   public id: number
+
+  @column()
+  public plan_id: number
+
+  @column()
+  public cliente_id: number
 
   @belongsTo(() => Plan,{
     foreignKey: 'plan_id',

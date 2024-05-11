@@ -16,9 +16,6 @@ export default class Traslado extends BaseModel {
   public fecha_hora: DateTime
 
   @column()
-  public tipo_vehiculo: string
-
-  @column()
   public servicio_id: number
   
   @belongsTo(() => Servicio,{

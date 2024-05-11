@@ -26,14 +26,14 @@ export default class EjecucionServicio extends BaseModel {
   public cliente: BelongsTo<typeof Cliente> 
 
   @hasMany(() => Comentario, {
-    foreignKey: 'Eservicio_id'
+    foreignKey: 'eservicio_id'
   })
   public comentarios: HasMany<typeof Comentario>
 
   @hasOne(() => Chat, {
-    foreignKey: 'Eservicio_id'
+    foreignKey: 'eservicio_id'
   })
-  public chats: HasOne<typeof Chat>
+  public chat: HasOne<typeof Chat>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
