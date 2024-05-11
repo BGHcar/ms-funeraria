@@ -8,7 +8,6 @@ export default class Suscripcion extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-
   @belongsTo(() => Plan,{
     foreignKey: 'plan_id',
   })
