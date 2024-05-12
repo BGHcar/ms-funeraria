@@ -4,6 +4,7 @@ import Servicio from './Servicio'
 import Plan from './Plan'
 
 export default class ServicioxPlan extends BaseModel {
+  public static table = 'serviciosxplanes'
   @column({ isPrimary: true })
   public id: number
 

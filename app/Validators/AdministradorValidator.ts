@@ -5,7 +5,7 @@ export default class AdministradorValidator {
   constructor(protected ctx: HttpContextContract) { }
 
 
-  
+
   public schema = schema.create
     ({
       email: schema.string({}, [
@@ -25,6 +25,9 @@ export default class AdministradorValidator {
       password: schema.string({}, [
         rules.maxLength(20),
         rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
+      ]),
+      user_id: schema.string({}, [
+        rules.required()
       ])
     })
 
@@ -50,6 +53,7 @@ export default class AdministradorValidator {
     'age.range': 'La edad debe estar entre 18 y 100',
     'password.required': 'La contraseña es requerida',
     'password.maxLength': 'La contraseña no puede tener mas de 20 caracteres',
-    'password.regex': 'La contraseña debe tener al menos 8 caracteres, una mayuscula, una minuscula y un numero'
+    'password.regex': 'La contraseña debe tener al menos 8 caracteres, una mayuscula, una minuscula y un numero',
+    'user_id.required': 'El id del usuario es requerido'
   }
 }
