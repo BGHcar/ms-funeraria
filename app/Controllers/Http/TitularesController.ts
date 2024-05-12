@@ -1,28 +1,16 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Titular from 'App/Models/Titular'
+import TitularValidator from 'App/Validators/TitularValidator'
 
 
 export default class TitularesController {
 
-    /*
-
-    El modelo de titulares tiene la siguiente estructura:
-
-    nombre: string
-    apellido: string
-    cedula: string
-    telefono: number
-    cliente_id: number
-    usuario_id: number
-
-    */
-    
         // Create a new owner
     
-        public async create({ request }: HttpContextContract) {
-            let body = request.body()
-            const theTitular = await Titular.create(body)
-            return theTitular
+        public async create({ request, response }: HttpContextContract) {
+            const data = await request.validate(TitularValidator)
+            const theTitular = await Titular.create(data)
+            return response.json(theTitular)
         }
     
         // Get all owners

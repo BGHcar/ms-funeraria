@@ -1,22 +1,14 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ServicioxPlan from 'App/Models/ServicioxPlan'
+import ServicioxplanValidator from 'App/Validators/ServicioxplanValidator'
 
 export default class ServiciosxplanesController {
 
-    /*
-
-    El modelo de serviciosxplanes tiene la siguiente estructura:
-
-    servicio_id: number
-    plan_id: number
-
-    */
-
     // Create 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theServicioxPlan = await ServicioxPlan.create(body)
-        return theServicioxPlan
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(ServicioxplanValidator)
+        const theServicioxPlan = await ServicioxPlan.create(data)
+        return response.json(theServicioxPlan)
     }
 
     // Get 

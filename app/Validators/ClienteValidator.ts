@@ -30,8 +30,15 @@ export default class ClienteValidator {
       rules.required(),
       rules.unique({table: "clientes", column:"cedula"}),
     ]),
+    edad: schema.number([
+      rules.required(),
+      rules.range(0,150),
+    ]),
     telefono: schema.string({trim: true},[
       rules.maxLength(15),
+    ]),
+    esta_vivo: schema.boolean([
+      rules.required(),
     ]),
     email: schema.string({trim: true},[
       rules.required(),
