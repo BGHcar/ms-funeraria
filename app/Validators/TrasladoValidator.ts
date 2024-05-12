@@ -32,9 +32,10 @@ export default class TrasladoValidator {
       rules.maxLength(100),
       rules.required()
     ]),
-    fecha_hora: schema.date({format: 'AAAA-MM-DDTHH:MM:SS'},[
+    fecha_hora: schema.string({trim: true},[
       rules.required(),
     ]),
+
     servicio_id: schema.number([
       rules.required()
     ])
@@ -53,7 +54,7 @@ export default class TrasladoValidator {
   public messages: CustomMessages = {
     'origen.required':'El origen es necesario',
     'destino.required':'El destino es necesario',
-    'fecha_hora.required':'la fecha tiene este formato:AAAA-MM-DDTHH:MM:SS y es requerida',
+    'fecha.required':'la fecha tiene este formato:AAAA-MM-DD y es requerida',
     'servicio_id.required':'El servicio es requerido',
   }
 }

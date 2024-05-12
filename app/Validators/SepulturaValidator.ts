@@ -18,7 +18,7 @@ export default class SepulturaValidator {
     ubicacion: schema.string({},[
       rules.required(),
     ]),
-    fecha_hora: schema.date({format: 'yyyy-MM-dd'},[
+    fecha_hora: schema.string({trim: true},[
       rules.required(),
     ]),
     servicio_id: schema.number([

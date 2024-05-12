@@ -18,7 +18,7 @@ export default class CremacionValidator {
       rules.minLength(1),
       rules.required(),
     ]),
-    fecha_hora: schema.date({format: 'yyyy-MM-dd HH:mm:ss'},[
+    fecha_hora: schema.string({trim: true},[
       rules.required(),
     ]),
     servicio_id: schema.number([
