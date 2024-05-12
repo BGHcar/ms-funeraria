@@ -4,16 +4,7 @@ import SalaValidator from 'App/Validators/SalaValidator'
 
 export default class SalasController {
 
-    /*
 
-    El modelo de salas tiene la siguiente estructura:
-
-    nombre: string
-    capacidad: number
-    disponibilidad: boolean
-    sede_id: number
-
-    */
 
     // Create a new salas
     public async create({ request, response }: HttpContextContract) {

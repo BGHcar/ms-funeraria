@@ -1,29 +1,20 @@
-import { schema, CustomMessages, rules} from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SalaValidator {
-  constructor(protected ctx: HttpContextContract) {}
-  
+  constructor(protected ctx: HttpContextContract) { }
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
+
+    /*
+
+    El modelo de salas tiene la siguiente estructura:
+
+    nombre: string
+    capacidad: number
+    disponibilidad: boolean
+    sede_id: number
+
+    */
   public schema = schema.create({
     nombre: schema.string({ trim: true }, [
       rules.maxLength(20),
@@ -31,7 +22,7 @@ export default class SalaValidator {
     ]),
     capacidad: schema.number([
       rules.required(),
-      rules.range(1,50),
+      rules.range(1, 50),
     ]),
     disponibilidad: schema.boolean([
       rules.required(),
@@ -51,5 +42,12 @@ export default class SalaValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'nombre.required': 'El nombre es requerido',
+    'nombre.maxLength': 'El nombre no puede tener mas de 20 caracteres',
+    'capacidad.required': 'La capacidad es requerida',
+    'capacidad.range': 'La capacidad debe estar entre 1 y 50',
+    'disponibilidad.required': 'La disponibilidad es requerida',
+    'sede_id.required': 'La sede es requerida',
+  }
 }

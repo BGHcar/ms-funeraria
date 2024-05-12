@@ -4,18 +4,7 @@ import ClienteValidator from 'App/Validators/ClienteValidator'
 
 export default class ClientesController {
 
-    /*
-    El modelo de clientes tiene la siguiente estructura:
 
-    nombre: string
-    apellido: string
-    cedula: string
-    telefono: string
-    email: string
-    password: string
-    user_id: string
-
-        */
 
     // Create a new client
     public async create({ request, response }: HttpContextContract) {

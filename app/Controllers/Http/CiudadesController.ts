@@ -1,23 +1,18 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Ciudad from 'App/Models/Ciudad'
+import CiudadValidator from 'App/Validators/CiudadValidator'
 
 
 export default class CiudadesController {
 
-    /*
-    El modelo de ciudades tiene la siguiente estructura:
 
-    nombre: string
-    departamento_id: number
-
-    */
 
 
     // Create a new City
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theCiudad = await Ciudad.create(body)
-        return theCiudad
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(CiudadValidator)
+        const theCiudad = await Ciudad.create(data)
+        return response.json(theCiudad)
     }
 
     // Get all Citys

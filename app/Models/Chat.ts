@@ -7,8 +7,9 @@ export default class Chat extends BaseModel {
   @column({ isPrimary: true })
   public id: number
   
-  public eservicio_id: number
   @column()
+  public eservicio_id: number
+
 
   @belongsTo(() => EjecucionServicio,{
     foreignKey: 'eservicio_id',

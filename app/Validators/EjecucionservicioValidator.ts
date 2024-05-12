@@ -1,29 +1,26 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class EjecucionservicioValidator {
-  constructor(protected ctx: HttpContextContract) {}
+  constructor(protected ctx: HttpContextContract) { }
 
   /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+  El modelo de ejecucion_servicios tiene la siguiente estructura:
+
+  cliente_id: number
+  servicio_id: number
+  */
+
+  public schema = schema.create({
+    cliente_id: schema.number([
+      rules.required(),
+      rules.exists({ table: "clientes", column: "id" })
+    ]),
+    servicio_id: schema.number([
+      rules.required(),
+      rules.exists({ table: "servicios", column: "id" })
+    ])
+  })
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -36,5 +33,10 @@ export default class EjecucionservicioValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'cliente_id.required': 'El cliente es requerido',
+    'cliente_id.exists': 'El cliente no existe',
+    'servicio_id.exists': 'El servicio no existe',
+    'servicio_id.required': 'El servicio es requerido'
+  }
 }

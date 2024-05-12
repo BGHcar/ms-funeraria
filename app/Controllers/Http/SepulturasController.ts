@@ -1,24 +1,17 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Sepultura from 'App/Models/Sepultura'
+import SepulturaValidator from 'App/Validators/SepulturaValidator'
 
 export default class SepulturasController {
 
-    /*
 
-    El modelo de sepulturas tiene la siguiente estructura:
-
-    ubicacion: string
-    fecha_hora: DateTime
-    servicio_id: number
-
-    */
 
     //create a new sepultura
 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theSepultura = await Sepultura.create(body)
-        return theSepultura
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(SepulturaValidator)
+        const theSepultura = await Sepultura.create(data)
+        return response.json(theSepultura)
     }
 
     // Get all sepultura

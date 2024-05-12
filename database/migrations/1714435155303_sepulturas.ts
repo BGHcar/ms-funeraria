@@ -11,6 +11,7 @@ export default class extends BaseSchema {
 
 
       table.integer('servicio_id').unsigned().references('servicios.id').onDelete('CASCADE').notNullable()
+      table.integer('sala_id').unsigned().references('salas.id').notNullable()
 
 
       /**

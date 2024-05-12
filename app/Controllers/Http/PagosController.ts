@@ -1,22 +1,16 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Pago from 'App/Models/Pago'
+import PagoValidator from 'App/Validators/PagoValidator'
 
 export default class PagosController {
 
-    /*
-    El modelo de pagos tiene la siguiente estructura:
 
-    monto: number
-    fecha: string
-    suscripcion_id: number
-
-    */
 
     // Create a new Payment
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const thePago = await Pago.create(body)
-        return thePago
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(PagoValidator)
+        const thePago = await Pago.create(data)
+        return response.json(thePago)
     }
 
     // Get all Payment

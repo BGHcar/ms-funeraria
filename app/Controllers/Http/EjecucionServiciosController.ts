@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import EjecucionServicio from 'App/Models/EjecucionServicio'
+import EjecucionservicioValidator from 'App/Validators/EjecucionservicioValidator';
 const { EmailClient } = require("@azure/communication-email");
 
 const connectionString = process.env['CONNECTION_STRING'];
@@ -7,22 +8,11 @@ const client = new EmailClient(connectionString);
 
 export default class EjecucionServiciosController {
 
-    /*
-    El modelo de ejecucion_servicios tiene la siguiente estructura:
-
-    cliente_id: number
-    servicio_id: number
-    */
-
-
-
-
     // Create a new Ejecucion Servicio
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theEjecucionServicio = await EjecucionServicio.create(body)
-        this.notify()
-        return theEjecucionServicio
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(EjecucionservicioValidator)
+        const theEjecucionServicio = await EjecucionServicio.create(data)
+        return response.json(theEjecucionServicio)
     }
 
     // Get all Ejecucion Servicio
@@ -72,6 +62,8 @@ export default class EjecucionServiciosController {
 
         const poller = await client.beginSend(emailMessage);
         const result = await poller.pollUntilDone();
+
+        console.log("Email sent with status: " + result.status);
     }
 
 }
