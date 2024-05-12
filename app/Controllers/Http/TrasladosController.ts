@@ -7,6 +7,7 @@ export default class TrasladosController {
     //create a new traslado
 
     public async create({ request, response }: HttpContextContract) {
+        
         const data = await request.validate(TrasladoValidator)
         const theTraslado = await Traslado.create(data)
         return response.json(theTraslado)

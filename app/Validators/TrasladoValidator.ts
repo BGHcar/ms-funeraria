@@ -32,9 +32,10 @@ export default class TrasladoValidator {
       rules.maxLength(100),
       rules.required()
     ]),
-    fecha_hora: schema.date({format: 'AAAA-MM-DDTHH:MM:SS'},[
-      rules.required(),
+    fecha_hora: schema.string({trim: true},[
+      rules.required()
     ]),
+    
     servicio_id: schema.number([
       rules.required()
     ])

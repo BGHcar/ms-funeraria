@@ -13,7 +13,7 @@ export default class Traslado extends BaseModel {
   public destino: string
 
   @column()
-  public fecha_hora: DateTime
+  public fecha_hora: string
 
   @column()
   public servicio_id: number

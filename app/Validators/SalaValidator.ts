@@ -27,7 +27,7 @@ export default class SalaValidator {
     disponibilidad: schema.boolean([
       rules.required(),
     ]),
-    sedes_id: schema.number([
+    sede_id: schema.number([
       rules.required(),
     ]),
   })
