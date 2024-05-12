@@ -4,8 +4,6 @@ import ClienteValidator from 'App/Validators/ClienteValidator'
 
 export default class ClientesController {
 
-
-
     // Create a new client
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(ClienteValidator)
