@@ -28,7 +28,6 @@ export default class Cliente extends BaseModel {
   @column()
   public esta_vivo: boolean
 
-
   @column()
   public email: string
   

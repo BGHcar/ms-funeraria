@@ -1,23 +1,16 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Cremacion from 'App/Models/Cremacion'
+import CremacionValidator from 'App/Validators/CremacionValidator'
 
 export default class CremacionesController {
 
-    /*
-    El modelo de cremaciones tiene la siguiente estructura:
-
-    ubicacion: string
-    fecha_hora: string
-    servicio_id: number
-
-    */
 
     //create a new cremacion
 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theCremacion = await Cremacion.create(body)
-        return theCremacion
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(CremacionValidator)
+        const theCremacion = await Cremacion.create(data)
+        return response.json(theCremacion)
     }
 
     // Get all cremacion

@@ -4,25 +4,13 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 export default class CiudadValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
+    /*
+    El modelo de ciudades tiene la siguiente estructura:
+
+    nombre: string
+    departamento_id: number
+
+    */
   public schema = schema.create({
     nombre: schema.string({trim: true},[
       rules.maxLength(20),
@@ -42,5 +30,10 @@ export default class CiudadValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'nombre.required': 'El nombre es requerido',
+    'nombre.maxLength': 'El nombre no puede tener mas de 20 caracteres',
+    'nombre.unique': 'El nombre ya esta en uso',
+    'departamento_id.required': 'El departamento es requerido',
+  }
 }

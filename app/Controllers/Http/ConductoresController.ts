@@ -1,28 +1,18 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Conductor from 'App/Models/Conductor'
+import ConductorValidator from 'App/Validators/ConductorValidator'
 
 export default class ConductoresController {
 
-    /*
-    El modelo de conductores tiene la siguiente estructura:
 
-    nombre: string
-    apellido: string
-    cedula: string
-    telefono: string
-    email: string
-    password: string
-    user_id: string
-
-    */
 
 
     // Create a new driver
 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theConductor = await Conductor.create(body)
-        return theConductor
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(ConductorValidator)
+        const theConductor = await Conductor.create(data)
+        return response.json(theConductor)
     }
 
     // Get all drivers

@@ -1,29 +1,27 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class ComentarioValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+    /*
+    El modelo de comentarios tiene la siguiente estructura:
+
+    contenido: string
+    eservicio_id: number
+
+    */
+  public schema = schema.create({
+    contenido: schema.string({trim: true},[
+      rules.maxLength(200),
+      rules.minLength(1),
+      rules.required(),
+    ]),
+    servicio_id: schema.number([
+      rules.required(),
+      rules.exists({table: "ejecucion_servicios", column: "id"})
+    ]),
+  })
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -36,5 +34,11 @@ export default class ComentarioValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'contenido.required': 'El contenido es requerido',
+    'contenido.maxLength': 'El contenido no puede tener mas de 200 caracteres',
+    'contenido.minLength': 'El contenido no puede estar vacio',
+    'servicio_id.required': 'El servicio es requerido',
+    'servicio_id.exists': 'La ejecucion de servicio no existe'
+  }
 }

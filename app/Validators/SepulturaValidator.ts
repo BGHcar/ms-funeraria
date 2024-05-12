@@ -1,29 +1,35 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SepulturaValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+    /*
+
+    El modelo de sepulturas tiene la siguiente estructura:
+
+    ubicacion: string
+    fecha_hora: DateTime
+    servicio_id: number
+    sala_id: number
+
+    */
+  public schema = schema.create({
+    ubicacion: schema.string({},[
+      rules.required(),
+    ]),
+    fecha_hora: schema.date({format: 'yyyy-MM-dd'},[
+      rules.required(),
+    ]),
+    servicio_id: schema.number([
+      rules.required(),
+      rules.exists({table: "servicios", column: "id"})
+    ]),
+    sala_id: schema.number([
+      rules.required(),
+      rules.exists({table: "salas", column: "id"})
+    ]),
+  })
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -36,5 +42,12 @@ export default class SepulturaValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'ubicacion.required': 'La ubicacion es requerida',
+    'fecha_hora.required': 'La fecha y hora son requeridas',
+    'servicio_id.required': 'El servicio es requerido',
+    'servicio_id.exists': 'El servicio no existe',
+    'sala_id.required': 'La sala es requerida',
+    'sala_id.exists': 'La sala no existe'
+  }
 }

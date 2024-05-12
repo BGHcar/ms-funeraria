@@ -4,17 +4,7 @@ import SedeValidator from 'App/Validators/SedeValidator'
 
 export default class SedesController {
 
-    /*
 
-    El modelo de sedes tiene la siguiente estructura:
-
-    nombre: string
-    direccion: string
-    telefono: number
-    correo_electronico: string
-    ciudad_id: number
-
-    */
 
 
     // Create a new sede

@@ -1,22 +1,16 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Mensaje from 'App/Models/Mensaje'
+import MensajeValidator from 'App/Validators/MensajeValidator'
 
 export default class MensajesController {
 
-    /*
-    El modelo de mensajes tiene la siguiente estructura:
 
-    contenido: string
-    user_id: string
-    chat_id: string
-
-    */
 
     // Create 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theMensaje = await Mensaje.create(body)
-        return theMensaje
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(MensajeValidator)
+        const theMensaje = await Mensaje.create(data)
+        return response.json(theMensaje)
     }
 
     // Get 

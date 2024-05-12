@@ -1,26 +1,16 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Beneficiario from 'App/Models/Beneficiario'
+import BeneficiarioValidator from 'App/Validators/BeneficiarioValidator'
 
 export default class BeneficiariosController {
 
-    /*
-    El modelo de beneficiarios tiene la siguiente estructura:
-
-    nombre: string
-    apellido: string
-    cedula: string
-    telefono: string
-    titular_id: number
-    cliente_id: number
-
-    */
-
     // Create a new beneficiary
 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theBeneficiario = await Beneficiario.create(body)
-        return theBeneficiario
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(BeneficiarioValidator)
+        const theBeneficiario = await Beneficiario.create(data)
+        return response.json(theBeneficiario)
+
     }
 
     // Get all beneficiaries

@@ -2,31 +2,20 @@ import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class DepartamentoValidator {
-  constructor(protected ctx: HttpContextContract) {}
+  constructor(protected ctx: HttpContextContract) { }
 
   /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
+
+  El modelo de departamentos tiene la siguiente estructura:
+
+  nombre: string
+
+  */
+
   public schema = schema.create({
-    nombre: schema.string({trim: true},[
+    nombre: schema.string({ trim: true }, [
       rules.maxLength(20),
-      rules.unique({table: "departamentos", column:"nombre"}),
+      rules.unique({ table: "departamentos", column: "nombre" }),
       rules.required(),
     ])
   })
@@ -41,5 +30,9 @@ export default class DepartamentoValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'nombre.required': 'El nombre es requerido',
+    'nombre.maxLength': 'El nombre no puede tener mas de 20 caracteres',
+    'nombre.unique': 'El nombre ya existe'
+  }
 }

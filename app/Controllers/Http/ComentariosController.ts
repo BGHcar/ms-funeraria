@@ -1,22 +1,17 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Comentario from 'App/Models/Comentario'
+import ComentarioValidator from 'App/Validators/ComentarioValidator'
 
 
 export default class EjecucionServiciosController {
 
-    /*
-    El modelo de comentarios tiene la siguiente estructura:
 
-    contenido: string
-    Eservicio_id: number
-
-    */
 
     // Create a new Comentario
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theComentario = await Comentario.create(body)
-        return theComentario
+    public async create({ request,response }: HttpContextContract) {
+        const data = await request.validate(ComentarioValidator)
+        const theComentario = await Comentario.create(data)
+        return response.json(theComentario)
     }
 
     // Get all Comentarios

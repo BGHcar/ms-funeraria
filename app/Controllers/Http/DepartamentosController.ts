@@ -4,14 +4,6 @@ import DepartamentoValidator from 'App/Validators/DepartamentoValidator'
 
 export default class DepartamentosController {
 
-    /*
-
-    El modelo de departamentos tiene la siguiente estructura:
-
-    nombre: string
-
-    */
-
     // Create a new Departament
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(DepartamentoValidator)

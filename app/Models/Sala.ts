@@ -30,7 +30,6 @@ export default class Sala extends BaseModel {
   })
   public cremaciones: HasMany<typeof Cremacion>
 
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
