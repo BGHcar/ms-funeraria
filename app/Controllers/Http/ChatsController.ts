@@ -7,7 +7,7 @@ export default class ChatsController {
 
     // Create 
 
-    public async create({ request,response }: HttpContextContract) {
+    public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(ChatValidator)
         const theChat = await Chat.create(data)
         return response.json(theChat)
@@ -15,16 +15,16 @@ export default class ChatsController {
 
     // Get 
 
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let chat:Chat[] = await Chat.query().preload('mensajes').paginate(page, perPage)
+        let chat: Chat[] = await Chat.query().preload('mensajes').paginate(page, perPage)
         return chat
     }
-      // Get  id
+    // Get  id
 
     public async findById({ params }: HttpContextContract) {
-        let theChat : Chat = await Chat.query().where('id', params.id).preload('mensajes').firstOrFail()
+        let theChat: Chat = await Chat.query().where('id', params.id).preload('mensajes').firstOrFail()
         return theChat
     }
     // Delete a client by id
@@ -34,4 +34,14 @@ export default class ChatsController {
         response.status(204)
         return await theChat.delete()
     }
+
+    // Update a client by id
+
+    public async update({ params, request }: HttpContextContract) {
+        const data = await request.validate(ChatValidator)
+        const theChat = await Chat.findOrFail(params.id)
+        theChat.merge(data)
+        return theChat.save()
+    }
 }
+

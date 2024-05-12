@@ -15,10 +15,8 @@ export default class ComentarioValidator {
     contenido: schema.string({trim: true},[
       rules.maxLength(200),
       rules.minLength(1),
-      rules.required(),
     ]),
-    servicio_id: schema.number([
-      rules.required(),
+    eservicio_id: schema.number([
       rules.exists({table: "ejecucion_servicios", column: "id"})
     ]),
   })
@@ -38,7 +36,7 @@ export default class ComentarioValidator {
     'contenido.required': 'El contenido es requerido',
     'contenido.maxLength': 'El contenido no puede tener mas de 200 caracteres',
     'contenido.minLength': 'El contenido no puede estar vacio',
-    'servicio_id.required': 'El servicio es requerido',
-    'servicio_id.exists': 'La ejecucion de servicio no existe'
+    'eservicio_id.required': 'El servicio es requerido',
+    'eservicio_id.exists': 'La ejecucion de servicio no existe'
   }
 }

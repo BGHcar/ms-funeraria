@@ -16,8 +16,7 @@ export default class PagoValidator {
     monto: schema.number([
       rules.required(),
     ]),
-    fecha: schema.date({format: 'yyyy-MM-dd'},[
-      rules.required(),
+    fecha: schema.string({trim: true},[
     ]),
     suscripcion_id: schema.number([
       rules.required(),

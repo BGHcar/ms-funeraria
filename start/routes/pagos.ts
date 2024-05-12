@@ -6,4 +6,7 @@ Route.group(() => {
     Route.post("/pagos", "PagosController.create");
     Route.put("/pagos/:id", "PagosController.update");
     Route.delete("/pagos/:id", "PagosController.delete");
+    Route.get("/pagos/suscripcion/:id", "PagosController.findBySubscription");
+    Route.get("/pagos/user/:id", "PagosController.findByUser");
+
 })

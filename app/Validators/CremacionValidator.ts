@@ -16,16 +16,19 @@ export default class CremacionValidator {
     ubicacion: schema.string({trim: true},[
       rules.maxLength(50),
       rules.minLength(1),
-      rules.required(),
     ]),
     fecha_hora: schema.string({trim: true},[
-      rules.required()
     ]),
     servicio_id: schema.number([
-      rules.required(),
-      rules.exists({table: "ejecucion_servicios", column: "id"})
+      rules.exists({table: "servicios", column: "id"})
     ]),
+    sala_id: schema.number([
+      rules.exists({table: "salas", column: "id"})
+    ])
   })
+    
+
+
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -44,6 +47,7 @@ export default class CremacionValidator {
     'ubicacion.minLength': 'La ubicacion no puede estar vacia',
     'fecha_hora.required': 'La fecha y hora son requeridas',
     'servicio_id.required': 'El servicio es requerido',
-    'servicio_id.exists': 'La ejecucion de servicio no existe'
+    'servicio_id.exists': 'El servicio no existe en la base de datos',
+    'sala_id.exists': 'La sala no existe en la base de datos'
   }
 }

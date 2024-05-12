@@ -33,7 +33,7 @@ export default class MensajesController {
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theMensaje = await Mensaje.findOrFail(params.id)
-        theMensaje.contenido = body.mensaje
+        theMensaje.contenido = body.contenido
         return theMensaje.save()
     }
 
