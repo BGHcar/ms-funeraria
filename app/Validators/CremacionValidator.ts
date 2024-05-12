@@ -25,6 +25,10 @@ export default class CremacionValidator {
       rules.required(),
       rules.exists({table: "ejecucion_servicios", column: "id"})
     ]),
+    sala_id: schema.number([
+      rules.required(),
+      rules.exists({table: "salas", column: "id"})
+    ]),
   })
 
   /**

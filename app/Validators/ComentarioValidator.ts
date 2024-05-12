@@ -17,7 +17,7 @@ export default class ComentarioValidator {
       rules.minLength(1),
       rules.required(),
     ]),
-    servicio_id: schema.number([
+    eservicio_id: schema.number([
       rules.required(),
       rules.exists({table: "ejecucion_servicios", column: "id"})
     ]),

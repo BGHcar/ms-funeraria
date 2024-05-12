@@ -10,7 +10,7 @@ export default class Pago extends BaseModel {
   public monto: number
 
   @column()
-  public fecha: DateTime
+  public fecha: string
 
   @column()
   public suscripcion_id: number

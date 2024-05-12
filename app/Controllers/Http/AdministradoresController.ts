@@ -9,7 +9,6 @@ export default class AdministradoresController {
     public async create({ request, response }: HttpContextContract) {
 
         const data = await request.validate(AdministradorValidator)
-
         const theAdministrador = await Administrador.create(data)
         return response.json(theAdministrador)
     }
