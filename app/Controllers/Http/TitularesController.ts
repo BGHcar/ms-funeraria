@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Beneficiario from 'App/Models/Beneficiario'
 import Titular from 'App/Models/Titular'
 import TitularValidator from 'App/Validators/TitularValidator'
 
@@ -18,14 +19,14 @@ export default class TitularesController {
         public async findAll({request}: HttpContextContract) {
             const page = request.input('page', 1)
             const perPage = request.input('perPage', 20)
-            let titulares:Titular[] = await Titular.query().paginate(page, perPage)
+            let titulares: Titular[] = await Titular.query().paginate(page, perPage)
             return titulares
         }
     
         // Get an owner by id
     
         public async findById({ params }: HttpContextContract) {
-            const theTitular = await Titular.findOrFail(params.id)
+            const theTitular = await Titular.query().where('id', params.id).preload("Beneficiarios").firstOrFail()
             return theTitular
         }
 

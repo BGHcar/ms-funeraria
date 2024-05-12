@@ -19,14 +19,14 @@ export default class CiudadesController {
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let ciudades: Ciudad[] = await Ciudad.query().paginate(page, perPage)
+        let ciudades: Ciudad[] = await Ciudad.query().preload('sedes').paginate(page, perPage)
         return ciudades
     }
 
     // Get a City by id
 
     public async findById({ params }: HttpContextContract) {
-        const theCiudad = await Ciudad.findOrFail(params.id)
+        const theCiudad = await Ciudad.query().where('id', params.id).preload('sedes').firstOrFail()
         return theCiudad
     }
 

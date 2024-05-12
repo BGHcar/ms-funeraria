@@ -18,14 +18,14 @@ export default class SedesController {
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let sedes: Sede[] = await Sede.query().paginate(page, perPage)
+        let sedes: Sede[] = await Sede.query().preload('salas').paginate(page, perPage)
         return sedes
     }
 
     // Get a sede by id
 
     public async findById({ params }: HttpContextContract) {
-        const theSede = await Sede.findOrFail(params.id)
+        const theSede = await Sede.query().where('id', params.id).preload('salas').firstOrFail()
         return theSede
     }
 

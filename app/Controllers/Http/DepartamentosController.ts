@@ -15,14 +15,14 @@ export default class DepartamentosController {
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let departamentos: Departamento[] = await Departamento.query().paginate(page, perPage)
+        let departamentos: Departamento[] = await Departamento.query().preload('ciudades').paginate(page, perPage)
         return departamentos
     }
 
     // Get a Departament by id
 
     public async findById({ params }: HttpContextContract) {
-        const theDepartamento = await Departamento.findOrFail(params.id)
+        const theDepartamento = await Departamento.query().where('id', params.id).preload('ciudades').firstOrFail()
         return theDepartamento
     }
 

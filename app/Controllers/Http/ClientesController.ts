@@ -24,7 +24,7 @@ export default class ClientesController {
     // Get a client by id
 
     public async findById({ params }: HttpContextContract) {
-        let theCliente : Cliente = await Cliente.query().where('id', params.id).preload('servicios').preload('planes').firstOrFail()
+        let theCliente : Cliente = await Cliente.query().where('id', params.id).preload('servicios').preload('planes').preload("beneficiarios").preload("titular").firstOrFail()
         return theCliente
     }
 
