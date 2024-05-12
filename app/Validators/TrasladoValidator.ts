@@ -1,7 +1,7 @@
 import { schema, CustomMessages, rules} from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class ClienteValidator {
+export default class TrasladoValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -24,42 +24,20 @@ export default class ClienteValidator {
    *    ```
    */
   public schema = schema.create({
-    nombre: schema.string({trim: true},[
-      rules.maxLength(30),
+    origen: schema.string({trim: true},[
+      rules.maxLength(100),
       rules.required()
     ]),
-    apellido: schema.string({trim: true},[
-      rules.maxLength(30),
+    destino: schema.string({trim: true},[
+      rules.maxLength(100),
       rules.required()
     ]),
-    cedula: schema.string({trim: true},[
-      rules.maxLength(15),
-      rules.required(),
-      rules.unique({table: "clientes", column:"cedula"}),
-    ]),
-    edad: schema.number([
-      rules.required(),
-      rules.range(0,150),
-    ]),
-    telefono: schema.string({trim: true},[
-      rules.maxLength(15),
-    ]),
-    esta_vivo: schema.boolean([
+    fecha_hora: schema.date({format: 'AAAA-MM-DDTHH:MM:SS'},[
       rules.required(),
     ]),
-    email: schema.string({trim: true},[
-      rules.required(),
-      rules.email(),
-      rules.unique({table: "clientes", column:"email"}),
-    ]),
-    password: schema.string({trim: true},[
-      rules.required(),
-      rules.minLength(8),
-    ]),
-    user_id: schema.string({trim: true},[
+    servicio_id: schema.number([
       rules.required()
-    ]),
-    
+    ])
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -72,5 +50,10 @@ export default class ClienteValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'origen.required':'El origen es necesario',
+    'destino.required':'El destino es necesario',
+    'fecha_hora.required':'la fecha tiene este formato:AAAA-MM-DDTHH:MM:SS y es requerida',
+    'servicio_id.required':'El servicio es requerido',
+  }
 }

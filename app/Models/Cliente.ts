@@ -20,7 +20,14 @@ export default class Cliente extends BaseModel {
   public cedula: string
 
   @column()
+  public edad: number
+
+  @column()
   public telefono: string
+
+  @column()
+  public esta_vivo: boolean
+
 
   @column()
   public email: string

@@ -1,22 +1,15 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Suscripcion from 'App/Models/Suscripcion'
+import SuscripcionValidator from 'App/Validators/SuscripcionValidator'
 
 export default class SuscripcionesController {
 
-    /*
-    
-    El modelo de suscripciones tiene la siguiente estructura:
-
-    plan_id: number
-    cliente_id: number
-
-    */
 
     // Create 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theSuscripcion = await Suscripcion.create(body)
-        return theSuscripcion
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(SuscripcionValidator)
+        const theSuscripcion = await Suscripcion.create(data)
+        return response.json(theSuscripcion)
     }
 
     // Get 

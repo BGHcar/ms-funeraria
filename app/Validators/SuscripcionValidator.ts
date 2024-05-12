@@ -1,7 +1,7 @@
-import { schema, CustomMessages, rules} from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class ClienteValidator {
+export default class SuscripcionValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -24,43 +24,14 @@ export default class ClienteValidator {
    *    ```
    */
   public schema = schema.create({
-    nombre: schema.string({trim: true},[
-      rules.maxLength(30),
+    cliente_id: schema.number([
       rules.required()
     ]),
-    apellido: schema.string({trim: true},[
-      rules.maxLength(30),
-      rules.required()
-    ]),
-    cedula: schema.string({trim: true},[
-      rules.maxLength(15),
-      rules.required(),
-      rules.unique({table: "clientes", column:"cedula"}),
-    ]),
-    edad: schema.number([
-      rules.required(),
-      rules.range(0,150),
-    ]),
-    telefono: schema.string({trim: true},[
-      rules.maxLength(15),
-    ]),
-    esta_vivo: schema.boolean([
+    plan_id: schema.number([
       rules.required(),
     ]),
-    email: schema.string({trim: true},[
-      rules.required(),
-      rules.email(),
-      rules.unique({table: "clientes", column:"email"}),
-    ]),
-    password: schema.string({trim: true},[
-      rules.required(),
-      rules.minLength(8),
-    ]),
-    user_id: schema.string({trim: true},[
-      rules.required()
-    ]),
-    
   })
+
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all
@@ -72,5 +43,8 @@ export default class ClienteValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'cliente_id.required':'El cliente es requerido',
+    'plan_id.required':'El plan es requerido',
+  }
 }

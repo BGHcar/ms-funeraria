@@ -1,25 +1,15 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Traslado from 'App/Models/Traslado'
+import TrasladoValidator from 'App/Validators/TrasladoValidator'
 
 export default class TrasladosController {
 
-    /*
-
-    El modelo de traslados tiene la siguiente estructura:
-
-    origen: string
-    destino: string
-    fecha_hora: DateTime
-    servicio_id: number
-    
-    */
-
     //create a new traslado
 
-    public async create({ request }: HttpContextContract) {
-        let body = request.body()
-        const theTraslado = await Traslado.create(body)
-        return theTraslado
+    public async create({ request, response }: HttpContextContract) {
+        const data = await request.validate(TrasladoValidator)
+        const theTraslado = await Traslado.create(data)
+        return response.json(theTraslado)
     }
 
     // Get all traslados

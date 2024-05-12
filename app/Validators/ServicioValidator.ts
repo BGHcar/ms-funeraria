@@ -1,7 +1,7 @@
 import { schema, CustomMessages, rules} from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class ClienteValidator {
+export default class ServicioValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -28,39 +28,20 @@ export default class ClienteValidator {
       rules.maxLength(30),
       rules.required()
     ]),
-    apellido: schema.string({trim: true},[
-      rules.maxLength(30),
-      rules.required()
-    ]),
-    cedula: schema.string({trim: true},[
-      rules.maxLength(15),
+    precio: schema.number([
       rules.required(),
-      rules.unique({table: "clientes", column:"cedula"}),
+      rules.range(0,10000000000000)
     ]),
-    edad: schema.number([
-      rules.required(),
-      rules.range(0,150),
-    ]),
-    telefono: schema.string({trim: true},[
-      rules.maxLength(15),
-    ]),
-    esta_vivo: schema.boolean([
+    descripcion: schema.string({trim: true},[
+      rules.maxLength(255),
       rules.required(),
     ]),
-    email: schema.string({trim: true},[
+    duracion: schema.number([
       rules.required(),
-      rules.email(),
-      rules.unique({table: "clientes", column:"email"}),
-    ]),
-    password: schema.string({trim: true},[
-      rules.required(),
-      rules.minLength(8),
-    ]),
-    user_id: schema.string({trim: true},[
-      rules.required()
-    ]),
-    
+      rules.range(0,10000000000000),
+    ])
   })
+
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all
@@ -72,5 +53,14 @@ export default class ClienteValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'nombre.required':'El nombre es requerido',
+    'precio.required':'El precio es requerido',
+    'descripcion.required':'La descripcion es requerida',
+    'duracion.required':'La duracion es requerida',
+    'duracion.range':'La duracion debe ser mayor a 0',
+    'precio.range':'Como no le vas a cobrar nada?',
+    
+    
+  }
 }

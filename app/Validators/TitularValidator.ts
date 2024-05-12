@@ -1,7 +1,7 @@
-import { schema, CustomMessages, rules} from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class ClienteValidator {
+export default class TitularValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -35,32 +35,20 @@ export default class ClienteValidator {
     cedula: schema.string({trim: true},[
       rules.maxLength(15),
       rules.required(),
-      rules.unique({table: "clientes", column:"cedula"}),
-    ]),
-    edad: schema.number([
-      rules.required(),
-      rules.range(0,150),
+      rules.unique({table: "titulares", column:"cedula"}),
+      rules.regex(/^[0-9]*$/),
     ]),
     telefono: schema.string({trim: true},[
       rules.maxLength(15),
+      rules.regex(/^[0-9]*$/),
+      rules.required()
     ]),
-    esta_vivo: schema.boolean([
-      rules.required(),
-    ]),
-    email: schema.string({trim: true},[
-      rules.required(),
-      rules.email(),
-      rules.unique({table: "clientes", column:"email"}),
-    ]),
-    password: schema.string({trim: true},[
-      rules.required(),
-      rules.minLength(8),
-    ]),
-    user_id: schema.string({trim: true},[
+    cliente_id: schema.number([
       rules.required()
     ]),
     
   })
+
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
    * for targeting nested fields and array expressions `(*)` for targeting all
@@ -72,5 +60,13 @@ export default class ClienteValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'nombre.required':'El nombre es requerido',
+    'apellido.required':'El apellido es requerido',
+    'cedula.required':'La cedula es requerida',
+    'cedula.regex':'La cedula en colombia son solo numeros',
+    'telefono.required':"El telefono es requerido",
+    'telefono.regex':'El numero telefonico son solo numeros',
+    'cliente_id.required':'El cliente es requerido',
+  }
 }
