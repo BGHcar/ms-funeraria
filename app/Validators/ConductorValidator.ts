@@ -22,9 +22,9 @@ export default class ConductorValidator {
       rules.required(),
       rules.minLength(3)
     ]),
-    apellido: schema.string({trim: true},[
+    //el apellido es opcional
+    apellido: schema.string.optional({trim: true},[
       rules.maxLength(20),
-      rules.required(),
       rules.minLength(3)
     ]),
     cedula: schema.string({trim: true},[
@@ -69,7 +69,6 @@ export default class ConductorValidator {
     'nombre.required': 'El nombre es requerido',
     'nombre.maxLength': 'El nombre no puede tener mas de 20 caracteres',
     'nombre.minLength': 'El nombre no puede tener menos de 3 caracteres',
-    'apellido.required': 'El apellido es requerido',
     'apellido.maxLength': 'El apellido no puede tener mas de 20 caracteres',
     'apellido.minLength': 'El apellido no puede tener menos de 3 caracteres',
     'cedula.required': 'La cedula es requerida',
