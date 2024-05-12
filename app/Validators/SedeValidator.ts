@@ -57,5 +57,7 @@ export default class SedeValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    
+  }
 }
