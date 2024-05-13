@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Beneficiario from 'App/Models/Beneficiario'
-import Plan from 'App/Models/Plan'
+import Cliente from 'App/Models/Cliente'
 import Titular from 'App/Models/Titular'
 import BeneficiarioValidator from 'App/Validators/BeneficiarioValidator'
 
@@ -10,24 +10,33 @@ export default class BeneficiariosController {
 
     public async create({ request, response }: HttpContextContract) {
 
-        const totalData = this.findTitularAndPlan(request.body().titular_id, request.body().plan_id)
-        console.log("Estos son los beneficiarios: ", totalData[0], "Estos son los maximos que se pueden tener: ", totalData[1])
-        if (totalData[0].length < totalData[1]) {
-        const data = await request.validate(BeneficiarioValidator)
-        const theBeneficiario = await Beneficiario.create(data)
-        return response.status(200).json(theBeneficiario)
-        }else{
-            return response.status(400).json({message: 'No se pueden agregar mas beneficiarios'})
+        const totalData = await this.findTitularAndPlan(request.body().titular_id, request.body().cliente_id)
+
+
+        if (totalData[0] < totalData[1]) {
+            const existingBeneficiario = await Beneficiario.query()
+            .where('cedula', request.body().cedula)
+            .where('titular_id', request.body().titular_id)
+            .first()
+            if (!existingBeneficiario) {
+                const data = await request.validate(BeneficiarioValidator)
+                const theBeneficiario = await Beneficiario.create(data)
+                return response.status(200).json(theBeneficiario)
+            } else {
+                return response.status(400).json({ message: 'Ya existe un beneficiario con este titular' })
+            }
+        } else {
+            return response.status(400).json({ message: 'No se pueden agregar mas beneficiarios' })
         }
 
     }
 
     // Get all beneficiaries
 
-    public async findAll({request}: HttpContextContract) {
+    public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let beneficiarios:Beneficiario[] = await Beneficiario.query().paginate(page, perPage)
+        let beneficiarios: Beneficiario[] = await Beneficiario.query().paginate(page, perPage)
         return beneficiarios
     }
 
@@ -59,11 +68,10 @@ export default class BeneficiariosController {
         response.status(204)
         return await theBeneficiario.delete()
     }
-    
-    public async findTitularAndPlan( titular_id: number, plan_id: number) {
+
+    public async findTitularAndPlan(titular_id: number, cliente_id: number) {
         const titular = await Titular.query().where('id', titular_id).preload('Beneficiarios').firstOrFail()
-        const thePlan = await Plan.findOrFail(plan_id)
-        console.log("Estos son los beneficiarios : ", titular.Beneficiarios, "Este es el plan: ", thePlan)
-        return (titular.Beneficiarios, thePlan.max_beneficiarios)
+        const theClient = await Cliente.query().where('id', cliente_id).preload('planes').firstOrFail()
+        return ([titular.Beneficiarios.length, theClient.planes[0].max_beneficiarios])
     }
 }
