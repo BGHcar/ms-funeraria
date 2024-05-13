@@ -4,6 +4,7 @@ import EjecucionServicio from 'App/Models/EjecucionServicio'
 import Servicio from 'App/Models/Servicio';
 import EjecucionservicioValidator from 'App/Validators/EjecucionservicioValidator';
 const { EmailClient } = require("@azure/communication-email");
+import Sala from 'App/Models/Sala';
 
 const connectionString = process.env['CONNECTION_STRING'];
 const client = new EmailClient(connectionString);
@@ -75,26 +76,53 @@ export default class EjecucionServiciosController {
         return await theEjecucionServicio.delete()
     }
 
-    public async notify(cliente: Cliente, servicio: Servicio, token: string) {
+    
+public async notify(cliente: Cliente, servicio: Servicio, token: string) {
+  try {
+      // Cargar la relación de cremación y sepultura junto con las salas correspondientes
+      await servicio.load('cremacion', (query) => {
+          query.preload('sala');
+      });
+      await servicio.load('sepultura', (query) => {
+          query.preload('sala');
+      });
 
-        const emailMessage = {
-            senderAddress: process.env['SENDER_ADDRESS'],
-            content: {
-                subject: "Se ha creado la ejecución de servicio.",
-                plainText: "Hola " + cliente.nombre + " " + cliente.apellido + ",\n" +
-                    "Se ha creado la ejecución del servicio " + servicio.nombre + " con éxito.\n" +
-                    "Su token para acceder al chat es: " + token + "."
-            },
-            recipients: {
-                to: [{ address: cliente.email }],
-            },
-        };
+      // Obtener la información de cremación y sepultura desde las relaciones cargadas
+      const cremacion = servicio.cremacion;
+      const sepultura = servicio.sepultura;
 
-        const poller = await client.beginSend(emailMessage);
-        const result = await poller.pollUntilDone();
+      // Obtener el nombre de la sala de cremación
+      const nombreSalaCremacion = cremacion ? cremacion.sala.nombre : "No asignada";
 
-        console.log("Email sent with status: " + result.status);
-    }
+      // Obtener el nombre de la sala de sepultura
+      const nombreSalaSepultura = sepultura ? sepultura.sala.nombre : "No asignada";
+
+      const emailMessage = {
+          senderAddress: process.env['SENDER_ADDRESS'],
+          content: {
+              subject: "Se ha creado la ejecución de servicio.",
+              plainText: `Hola ${cliente.nombre} ${cliente.apellido},\n` +
+                  `Usted ha solicitado ${servicio.nombre} de funeraria\n` +
+                  `La sala asignada para la Sepultura es ${nombreSalaSepultura}.\n` +
+                  `La sala asignada para la Cremación es ${nombreSalaCremacion}.\n` +
+                  `Su token para acceder al chat es: ${token}.`
+          },
+          recipients: {
+              to: [{ address: cliente.email }],
+          },
+      };
+
+      const poller = await client.beginSend(emailMessage);
+      const result = await poller.pollUntilDone();
+
+      console.log("Email sent with status: " + result.status);
+  } catch (error) {
+      console.error('Error al enviar el correo electrónico:', error)
+      throw new Error('Error al enviar el correo electrónico.')
+  }
+}
+
+  
 
     public async searchClientAndService(id_client: number, id_service: number, token: string) {
         const cliente: Cliente = await Cliente.findOrFail(id_client)
