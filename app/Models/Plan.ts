@@ -15,6 +15,9 @@ export default class Plan extends BaseModel {
   public precio : number
 
   @column()
+  public max_beneficiarios : number
+
+  @column()
   public duracion : number
 
   @column()

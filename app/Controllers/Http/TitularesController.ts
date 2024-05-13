@@ -18,7 +18,7 @@ export default class TitularesController {
         public async findAll({request}: HttpContextContract) {
             const page = request.input('page', 1)
             const perPage = request.input('perPage', 20)
-            let titulares: Titular[] = await Titular.query().paginate(page, perPage)
+            let titulares: Titular[] = await Titular.query().preload("Beneficiarios").paginate(page, perPage)
             return titulares
         }
     
