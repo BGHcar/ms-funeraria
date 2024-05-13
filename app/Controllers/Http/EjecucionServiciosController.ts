@@ -13,8 +13,10 @@ export default class EjecucionServiciosController {
     // Create a new Ejecucion Servicio
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(EjecucionservicioValidator)
+        data.token = this.generateRandomToken()
+        this.searchClientAndService(data.cliente_id, data.servicio_id, data.token )
         const theEjecucionServicio = await EjecucionServicio.create(data)
-        this.searchClientAndService(data.cliente_id, data.servicio_id)
+        
         return response.json(theEjecucionServicio)
     }
 
@@ -51,13 +53,15 @@ export default class EjecucionServiciosController {
         return await theEjecucionServicio.delete()
     }
 
-    public async notify(cliente: Cliente, servicio: Servicio) {
+    public async notify(cliente: Cliente, servicio: Servicio, token: string) {
 
         const emailMessage = {
             senderAddress: process.env['SENDER_ADDRESS'],
             content: {
                 subject: "Se ha creado la ejecución de servicio.",
-                plainText: `Hola ${cliente.nombre}, se ha creado la ejecución del servicio ${servicio.nombre}.`
+                plainText: "Hola " + cliente.nombre + " " + cliente.apellido + ",\n" +
+                    "Se ha creado la ejecución del servicio " + servicio.nombre + " con éxito.\n" +
+                    "Su token de ejecución es: " + token + "."
             },
             recipients: {
                 to: [{ address: cliente.email }],
@@ -70,10 +74,14 @@ export default class EjecucionServiciosController {
         console.log("Email sent with status: " + result.status);
     }
 
-    public async searchClientAndService( id_client: number, id_service: number) {
+    public async searchClientAndService(id_client: number, id_service: number, token: string) {
         const cliente: Cliente = await Cliente.findOrFail(id_client)
         const servicio: Servicio = await Servicio.findOrFail(id_service)
-        this.notify(cliente, servicio)
+        this.notify(cliente, servicio, token)
+    }
+
+    generateRandomToken() { // Generate a random token de 10 caracteres
+        return Math.random().toString(36).substring(2, 15);
     }
 
 }

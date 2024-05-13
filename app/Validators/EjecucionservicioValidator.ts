@@ -19,7 +19,9 @@ export default class EjecucionservicioValidator {
     servicio_id: schema.number([
       rules.required(),
       rules.exists({ table: "servicios", column: "id" })
-    ])
+    ]),
+    //El token no lo puede ingresar el usuario
+    token: schema.string.optional()
   })
 
   /**

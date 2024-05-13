@@ -15,6 +15,9 @@ export default class EjecucionServicio extends BaseModel {
   @column()
   public cliente_id: number
 
+  @column()
+  public token: string
+
   @belongsTo(() => Servicio,{
     foreignKey: 'servicio_id',
   })
