@@ -75,53 +75,67 @@ export default class EjecucionServiciosController {
         return await theEjecucionServicio.delete()
     }
 
-
     public async notify(cliente: Cliente, servicio: Servicio, token: string) {
         try {
-            // Cargar la relación de cremación y sepultura junto con las salas correspondientes
+            // Cargar la relación de cremación junto con la sala, la sede y la ciudad correspondientes
             await servicio.load('cremacion', (query) => {
-                query.preload('sala');
+                query.preload('sala', (query) => {
+                    query.preload('sede', (query) => {
+                        query.preload('ciudades');
+                    });
+                });
             });
+            // Cargar la relación de sepultura junto con la sala, la sede y la ciudad correspondientes
             await servicio.load('sepultura', (query) => {
-                query.preload('sala');
+                query.preload('sala', (query) => {
+                    query.preload('sede', (query) => {
+                        query.preload('ciudades');
+                    });
+                });
             });
-
+    
             // Obtener la información de cremación y sepultura desde las relaciones cargadas
             const cremacion = servicio.cremacion;
             const sepultura = servicio.sepultura;
-
-            // Obtener el nombre de la sala de cremación
+    
+            // Obtener el nombre de la sala de cremación, la ciudad y el nombre de la sede asociada a la sala de cremación
             const nombreSalaCremacion = cremacion ? cremacion.sala.nombre : "No asignada";
-
-            // Obtener el nombre de la sala de sepultura
+            const ciudadSalaCremacion = cremacion ? cremacion.sala.sede.ciudades.nombre : "No asignada";
+            const nombreSedeCremacion = cremacion ? cremacion.sala.sede.nombre : "No asignada";
+    
+            // Obtener el nombre de la sala de sepultura, la ciudad y el nombre de la sede asociada a la sala de sepultura
             const nombreSalaSepultura = sepultura ? sepultura.sala.nombre : "No asignada";
-
+            const ciudadSalaSepultura = sepultura ? sepultura.sala.sede.ciudades.nombre : "No asignada";
+            const nombreSedeSepultura = sepultura ? sepultura.sala.sede.nombre : "No asignada";
+    
             const emailMessage = {
                 senderAddress: process.env['SENDER_ADDRESS'],
                 content: {
                     subject: "Se ha creado la ejecución de servicio.",
                     plainText: `Hola ${cliente.nombre} ${cliente.apellido},\n` +
-                        `Usted ha solicitado ${servicio.nombre} de funeraria\n` +
-                        `La sala asignada para la Sepultura es ${nombreSalaSepultura}.\n` +
-                        `La sala asignada para la Cremación es ${nombreSalaCremacion}.\n` +
+                        `Usted ha solicitado ${servicio.nombre} de funeraria.\n` +
+                        `Para la Cremación:\n` +
+                        `La sala asignada es ${nombreSalaCremacion}, en la ciudad de ${ciudadSalaCremacion}, en la sede ${nombreSedeCremacion}.\n` +
+                        `Para la Sepultura:\n` +
+                        `La sala asignada es ${nombreSalaSepultura}, en la ciudad de ${ciudadSalaSepultura}, en la sede ${nombreSedeSepultura}.\n` +
                         `Su token para acceder al chat es: ${token}.`
                 },
                 recipients: {
                     to: [{ address: cliente.email }],
                 },
             };
-
+    
             const poller = await client.beginSend(emailMessage);
             const result = await poller.pollUntilDone();
-
+    
             console.log("Email sent with status: " + result.status);
         } catch (error) {
             console.error('Error al enviar el correo electrónico:', error)
             throw new Error('Error al enviar el correo electrónico.')
         }
     }
-
-
+    
+    
 
     public async searchClientAndService(id_client: number, id_service: number, token: string) {
         const cliente: Cliente = await Cliente.findOrFail(id_client)
