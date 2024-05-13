@@ -14,9 +14,9 @@ export default class EjecucionServiciosController {
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(EjecucionservicioValidator)
         data.token = this.generateRandomToken()
-        this.searchClientAndService(data.cliente_id, data.servicio_id, data.token )
+        this.searchClientAndService(data.cliente_id, data.servicio_id, data.token)
         const theEjecucionServicio = await EjecucionServicio.create(data)
-        
+
         return response.json(theEjecucionServicio)
     }
 
@@ -24,36 +24,36 @@ export default class EjecucionServiciosController {
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-    
+
         let ejecucion_servicios: EjecucionServicio[] = await EjecucionServicio
-          .query()
-          .preload('cliente', (query) => {
-            query.select(['nombre', 'apellido', 'edad', 'cedula', 'telefono', 'email'])
-          })
-          .preload('servicio', (query) => {
-            query.select(['nombre', 'precio', 'descripcion', 'duracion'])
-          })
-          .preload('chat', (query) => {
-            query.preload('mensajes', (subQuery) => {
-              subQuery.select(['contenido', 'user_id'])
+            .query()
+            .preload('cliente', (query) => {
+                query.select(['nombre', 'apellido', 'edad', 'cedula', 'telefono', 'email'])
             })
-          })
-          .paginate(page, perPage)
-    
+            .preload('servicio', (query) => {
+                query.select(['nombre', 'precio', 'descripcion', 'duracion'])
+            })
+            .preload('chat', (query) => {
+                query.preload('mensajes', (subQuery) => {
+                    subQuery.select(['contenido', 'user_id'])
+                })
+            })
+            .paginate(page, perPage)
+
         return ejecucion_servicios
-      }
+    }
 
     // Get a Departament by id
 
     public async findById({ params }: HttpContextContract) {
         let theEjecucionServicio: EjecucionServicio = await EjecucionServicio
-        .query()
-        .where('id', params.id)
-        .preload('cliente')
-        .preload('servicio')
-        .preload('chat')
-        .preload('comentarios')
-        .firstOrFail()
+            .query()
+            .where('id', params.id)
+            .preload('cliente')
+            .preload('servicio')
+            .preload('chat')
+            .preload('comentarios')
+            .firstOrFail()
         return theEjecucionServicio
     }
 
@@ -75,53 +75,53 @@ export default class EjecucionServiciosController {
         return await theEjecucionServicio.delete()
     }
 
-    
-public async notify(cliente: Cliente, servicio: Servicio, token: string) {
-  try {
-      // Cargar la relación de cremación y sepultura junto con las salas correspondientes
-      await servicio.load('cremacion', (query) => {
-          query.preload('sala');
-      });
-      await servicio.load('sepultura', (query) => {
-          query.preload('sala');
-      });
 
-      // Obtener la información de cremación y sepultura desde las relaciones cargadas
-      const cremacion = servicio.cremacion;
-      const sepultura = servicio.sepultura;
+    public async notify(cliente: Cliente, servicio: Servicio, token: string) {
+        try {
+            // Cargar la relación de cremación y sepultura junto con las salas correspondientes
+            await servicio.load('cremacion', (query) => {
+                query.preload('sala');
+            });
+            await servicio.load('sepultura', (query) => {
+                query.preload('sala');
+            });
 
-      // Obtener el nombre de la sala de cremación
-      const nombreSalaCremacion = cremacion ? cremacion.sala.nombre : "No asignada";
+            // Obtener la información de cremación y sepultura desde las relaciones cargadas
+            const cremacion = servicio.cremacion;
+            const sepultura = servicio.sepultura;
 
-      // Obtener el nombre de la sala de sepultura
-      const nombreSalaSepultura = sepultura ? sepultura.sala.nombre : "No asignada";
+            // Obtener el nombre de la sala de cremación
+            const nombreSalaCremacion = cremacion ? cremacion.sala.nombre : "No asignada";
 
-      const emailMessage = {
-          senderAddress: process.env['SENDER_ADDRESS'],
-          content: {
-              subject: "Se ha creado la ejecución de servicio.",
-              plainText: `Hola ${cliente.nombre} ${cliente.apellido},\n` +
-                  `Usted ha solicitado ${servicio.nombre} de funeraria\n` +
-                  `La sala asignada para la Sepultura es ${nombreSalaSepultura}.\n` +
-                  `La sala asignada para la Cremación es ${nombreSalaCremacion}.\n` +
-                  `Su token para acceder al chat es: ${token}.`
-          },
-          recipients: {
-              to: [{ address: cliente.email }],
-          },
-      };
+            // Obtener el nombre de la sala de sepultura
+            const nombreSalaSepultura = sepultura ? sepultura.sala.nombre : "No asignada";
 
-      const poller = await client.beginSend(emailMessage);
-      const result = await poller.pollUntilDone();
+            const emailMessage = {
+                senderAddress: process.env['SENDER_ADDRESS'],
+                content: {
+                    subject: "Se ha creado la ejecución de servicio.",
+                    plainText: `Hola ${cliente.nombre} ${cliente.apellido},\n` +
+                        `Usted ha solicitado ${servicio.nombre} de funeraria\n` +
+                        `La sala asignada para la Sepultura es ${nombreSalaSepultura}.\n` +
+                        `La sala asignada para la Cremación es ${nombreSalaCremacion}.\n` +
+                        `Su token para acceder al chat es: ${token}.`
+                },
+                recipients: {
+                    to: [{ address: cliente.email }],
+                },
+            };
 
-      console.log("Email sent with status: " + result.status);
-  } catch (error) {
-      console.error('Error al enviar el correo electrónico:', error)
-      throw new Error('Error al enviar el correo electrónico.')
-  }
-}
+            const poller = await client.beginSend(emailMessage);
+            const result = await poller.pollUntilDone();
 
-  
+            console.log("Email sent with status: " + result.status);
+        } catch (error) {
+            console.error('Error al enviar el correo electrónico:', error)
+            throw new Error('Error al enviar el correo electrónico.')
+        }
+    }
+
+
 
     public async searchClientAndService(id_client: number, id_service: number, token: string) {
         const cliente: Cliente = await Cliente.findOrFail(id_client)

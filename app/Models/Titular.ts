@@ -22,8 +22,6 @@ export default class Titular extends BaseModel {
   @column()
   public cliente_id: number
 
-  @column()
-  public usuario_id: number
 
   @hasMany(() => Beneficiario, {
     foreignKey: 'titular_id'

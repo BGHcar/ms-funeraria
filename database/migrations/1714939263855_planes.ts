@@ -14,7 +14,7 @@ export default class extends BaseSchema {
       table.integer('descuento').notNullable()
       table.integer('precio_final').notNullable()
       table.boolean('estado').notNullable()
-
+      table.integer('max_beneficiarios').notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

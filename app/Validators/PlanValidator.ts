@@ -37,6 +37,11 @@ export default class PlanValidator {
     estado: schema.boolean([
       rules.required(),
     ]),
+    max_beneficiarios: schema.number([
+      rules.required(),
+      // el numero no puede ser negativo
+      rules.range(0, 40),
+    ]),
   })
 
   /**
@@ -59,5 +64,6 @@ export default class PlanValidator {
     'descuento.required': 'El descuento es requerido',
     'precio_final.required': 'El precio final es requerido',
     'estado.required': 'El estado es requerido',
+    'max_beneficiarios.required': 'El maximo de beneficiarios es requerido',
   }
 }
