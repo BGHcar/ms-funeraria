@@ -1,6 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Ciudad from 'App/Models/Ciudad';
 import Cliente from 'App/Models/Cliente';
 import EjecucionServicio from 'App/Models/EjecucionServicio'
+import Sede from 'App/Models/Sede';
 import Servicio from 'App/Models/Servicio';
 import EjecucionservicioValidator from 'App/Validators/EjecucionservicioValidator';
 const { EmailClient } = require("@azure/communication-email");
@@ -88,7 +90,20 @@ export default class EjecucionServiciosController {
 
             // Obtener la información de cremación y sepultura desde las relaciones cargadas
             const cremacion = servicio.cremacion;
+            let cremacionSedeName = "";
+            let cremacionCiudadName = "";
+            let sepulturaSedeName = "";
+            let sepulturaCiudadName = "";
+
+            if (cremacion) {
+                cremacionSedeName = (await Sede.findOrFail(cremacion.sala.sede_id)).nombre
+                cremacionCiudadName = (await Ciudad.findOrFail(Sede.findOrFail(cremacion.sala.sede_id))).nombre
+            }
             const sepultura = servicio.sepultura;
+            if (sepultura) {
+                sepulturaSedeName = (await Sede.findOrFail(sepultura.sala.sede_id)).nombre
+                sepulturaCiudadName = (await Ciudad.findOrFail(Sede.findOrFail(sepultura.sala.sede_id))).nombre
+            }
 
             // Obtener el nombre de la sala de cremación
             const nombreSalaCremacion = cremacion ? cremacion.sala.nombre : "No asignada";
@@ -103,6 +118,7 @@ export default class EjecucionServiciosController {
                     plainText: `Hola ${cliente.nombre} ${cliente.apellido},\n` +
                         `Usted ha solicitado ${servicio.nombre} de funeraria\n` +
                         `La sala asignada para la Sepultura es ${nombreSalaSepultura}.\n` +
+                        `la sede de la sepultura es ${sepulturaSedeName} en la ciudad de ${sepulturaCiudadName}.\n` +
                         `La sala asignada para la Cremación es ${nombreSalaCremacion}.\n` +
                         `Su token para acceder al chat es: ${token}.`
                 },
