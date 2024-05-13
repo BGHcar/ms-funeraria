@@ -136,6 +136,7 @@ export default class EjecucionServiciosController {
     }
     
     
+    
 
     public async searchClientAndService(id_client: number, id_service: number, token: string) {
         const cliente: Cliente = await Cliente.findOrFail(id_client)
