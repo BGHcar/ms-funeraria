@@ -21,9 +21,6 @@ export default class Plan extends BaseModel {
   public duracion : number
 
   @column()
-  public Nro_Beneficiarios: number
-
-  @column()
   public descuento : number
 
   @column()

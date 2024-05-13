@@ -10,7 +10,6 @@ export default class extends BaseSchema {
       table.string('nombre', 255).notNullable()
       table.integer('precio').notNullable()
       table.integer('duracion').notNullable()
-      table.integer('Max_Beneficiarios').notNullable()
       table.integer('descuento').notNullable()
       table.integer('precio_final').notNullable()
       table.boolean('estado').notNullable()
