@@ -24,14 +24,36 @@ export default class EjecucionServiciosController {
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let ejecucion_servicios: EjecucionServicio[] = await EjecucionServicio.query().preload('cliente').preload('servicio').preload('chat').preload('comentarios').paginate(page, perPage)
+    
+        let ejecucion_servicios: EjecucionServicio[] = await EjecucionServicio
+          .query()
+          .preload('cliente', (query) => {
+            query.select(['nombre', 'apellido', 'edad', 'cedula', 'telefono', 'email'])
+          })
+          .preload('servicio', (query) => {
+            query.select(['nombre', 'precio', 'descripcion', 'duracion'])
+          })
+          .preload('chat', (query) => {
+            query.preload('mensajes', (subQuery) => {
+              subQuery.select(['contenido', 'user_id'])
+            })
+          })
+          .paginate(page, perPage)
+    
         return ejecucion_servicios
-    }
+      }
 
     // Get a Departament by id
 
     public async findById({ params }: HttpContextContract) {
-        let theEjecucionServicio: EjecucionServicio = await EjecucionServicio.query().where('id', params.id).preload('cliente').preload('servicio').preload('chat').preload('comentarios').firstOrFail()
+        let theEjecucionServicio: EjecucionServicio = await EjecucionServicio
+        .query()
+        .where('id', params.id)
+        .preload('cliente')
+        .preload('servicio')
+        .preload('chat')
+        .preload('comentarios')
+        .firstOrFail()
         return theEjecucionServicio
     }
 
@@ -61,7 +83,7 @@ export default class EjecucionServiciosController {
                 subject: "Se ha creado la ejecución de servicio.",
                 plainText: "Hola " + cliente.nombre + " " + cliente.apellido + ",\n" +
                     "Se ha creado la ejecución del servicio " + servicio.nombre + " con éxito.\n" +
-                    "Su token de ejecución es: " + token + "."
+                    "Su token para acceder al chat es: " + token + "."
             },
             recipients: {
                 to: [{ address: cliente.email }],
