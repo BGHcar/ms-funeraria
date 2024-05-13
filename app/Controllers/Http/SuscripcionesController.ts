@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Suscripcion from 'App/Models/Suscripcion'
+import Titular from 'App/Models/Titular'
 import SuscripcionValidator from 'App/Validators/SuscripcionValidator'
 
 export default class SuscripcionesController {
@@ -9,13 +10,15 @@ export default class SuscripcionesController {
     public async create({ request, response }: HttpContextContract) {
 
         const data = await request.validate(SuscripcionValidator)
-
-        const existingSuscripcion = await Suscripcion.query().where('cliente_id', data.cliente_id).first()
+        const cliente_id = (await Titular.findOrFail(data.titular_id)).cliente_id
+        const existingSuscripcion = await Suscripcion.query().where('cliente_id', cliente_id).first()
 
         if (existingSuscripcion) {
             return response.status(400).json({ message: 'Ya existe una suscripcion con este cliente' })
         } else {
-            const theSuscripcion = await Suscripcion.create(data)
+            const { titular_id, ...clienteData } = data
+            const newData = { ...clienteData, cliente_id }
+            const theSuscripcion = await Suscripcion.create(newData)
             return response.json(theSuscripcion)
         }
     }

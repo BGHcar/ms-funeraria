@@ -36,17 +36,28 @@ export default class TitularValidator {
       rules.maxLength(15),
       rules.required(),
       rules.unique({table: "titulares", column:"cedula"}),
-      rules.regex(/^[0-9]*$/),
+    ]),
+    edad: schema.number([
+      rules.required(),
+      rules.range(0,150),
     ]),
     telefono: schema.string({trim: true},[
       rules.maxLength(15),
-      rules.regex(/^[0-9]*$/),
-      rules.required()
     ]),
-    cliente_id: schema.number([
-      rules.required()
+    esta_vivo: schema.boolean([
+      rules.required(),
     ]),
-    
+    email: schema.string({trim: true},[
+      rules.required(),
+      rules.email(),
+      rules.unique({table: "titulares", column:"email"}),
+    ]),
+    password: schema.string({trim: true},[
+      rules.minLength(8),
+      rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
+    ]),
+    cliente_id: schema.number.optional([
+    ]),
   })
 
   /**
@@ -68,5 +79,13 @@ export default class TitularValidator {
     'telefono.required':"El telefono es requerido",
     'telefono.regex':'El numero telefonico son solo numeros',
     'cliente_id.required':'El cliente es requerido',
+    'email.required':'El email es requerido',
+    'email.email':'El email no es valido',
+    'password.required':'La contraseña es requerida',
+    'password.minLength':'La contraseña debe tener al menos 8 caracteres',
+    'password.regex':'La contraseña debe tener al menos una mayuscula, una minuscula y un numero',
+    'edad.required':'La edad es requerida',
+    'edad.range':'La edad no puede ser negativa',
+    'esta_vivo.required':'El estado de vida es requerido',
   }
 }

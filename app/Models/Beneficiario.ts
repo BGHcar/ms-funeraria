@@ -17,7 +17,19 @@ export default class Beneficiario extends BaseModel {
   public cedula: string
 
   @column()
+  public edad: number
+
+  @column()
   public telefono: string
+
+  @column()
+  public esta_vivo: boolean
+
+  @column()
+  public email: string
+  
+  @column()
+  public password: string
 
   @column()
   public titular_id: number

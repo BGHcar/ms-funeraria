@@ -7,8 +7,10 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('token')
+      table.string('ubicacion')
       
       //ForeingKey
+      table.integer('difunto_id').unsigned().references('clientes.id').notNullable()
       table.integer('servicio_id').unsigned().references('servicios.id').notNullable()
       table.integer('cliente_id').unsigned().references('clientes.id').notNullable()
       /**

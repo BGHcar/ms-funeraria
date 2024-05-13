@@ -50,9 +50,9 @@ export default class ClienteValidator {
       rules.minLength(8),
       rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
     ]),
-    user_id: schema.string({trim: true},[
-      rules.required()
-    ])
+    user_id: schema.string.optional({trim: true},[
+      rules.required(),
+    ]),
     
   })
   /**

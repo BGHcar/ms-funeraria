@@ -18,6 +18,12 @@ export default class EjecucionServicio extends BaseModel {
   @column()
   public token: string
 
+  @column()
+  public difunto_id: number
+
+  @column()
+  public ubicacion: string
+
   @belongsTo(() => Servicio,{
     foreignKey: 'servicio_id',
   })
@@ -32,6 +38,11 @@ export default class EjecucionServicio extends BaseModel {
     foreignKey: 'eservicio_id'
   })
   public comentarios: HasMany<typeof Comentario>
+
+  @hasOne(() => Cliente, {
+    foreignKey: 'cliente_id'
+  })
+  public difunto: HasOne<typeof Cliente>
 
   @hasOne(() => Chat, {
     foreignKey: 'eservicio_id'

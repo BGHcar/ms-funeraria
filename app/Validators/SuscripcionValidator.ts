@@ -24,12 +24,12 @@ export default class SuscripcionValidator {
    *    ```
    */
   public schema = schema.create({
-    cliente_id: schema.number([
+    titular_id: schema.number([
       rules.required()
     ]),
     plan_id: schema.number([
       rules.required(),
-    ]),
+    ])
   })
 
   /**

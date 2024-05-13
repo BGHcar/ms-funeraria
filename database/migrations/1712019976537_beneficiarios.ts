@@ -9,7 +9,11 @@ export default class extends BaseSchema {
       table.string('nombre', 255).notNullable()
       table.string('apellido', 255).notNullable()
       table.string('cedula', 255).notNullable()
+      table.integer('edad').notNullable()
       table.string('telefono', 255).notNullable()
+      table.boolean("esta_vivo").notNullable()
+      table.string('email', 255).notNullable()
+      table.string('password', 255).notNullable()
 
       // foreign key
       table.integer('titular_id').unsigned().references('titulares.id')
@@ -18,7 +22,6 @@ export default class extends BaseSchema {
 
       table.integer('cliente_id').unsigned().references('clientes.id')
                                             .onDelete('CASCADE')
-                                            .notNullable
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

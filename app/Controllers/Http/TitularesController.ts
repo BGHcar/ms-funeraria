@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Cliente from 'App/Models/Cliente'
 import Titular from 'App/Models/Titular'
 import TitularValidator from 'App/Validators/TitularValidator'
 
@@ -8,7 +9,9 @@ export default class TitularesController {
         // Create a new owner
     
         public async create({ request, response }: HttpContextContract) {
+            const theClient = await Cliente.create(request.body())
             const data = await request.validate(TitularValidator)
+            data.cliente_id = theClient.id
             const theTitular = await Titular.create(data)
             return response.json(theTitular)
         }

@@ -21,7 +21,12 @@ export default class EjecucionservicioValidator {
       rules.exists({ table: "servicios", column: "id" })
     ]),
     //El token no lo puede ingresar el usuario
-    token: schema.string.optional()
+    token: schema.string.optional(),
+    difunto_id: schema.number([
+      rules.exists({ table: "clientes", column: "id" })
+    ]),
+    ubicacion: schema.string({ trim: true }, [
+    ]),
   })
 
   /**
@@ -39,6 +44,8 @@ export default class EjecucionservicioValidator {
     'cliente_id.required': 'El cliente es requerido',
     'cliente_id.exists': 'El cliente no existe',
     'servicio_id.exists': 'El servicio no existe',
-    'servicio_id.required': 'El servicio es requerido'
+    'servicio_id.required': 'El servicio es requerido',
+    'difunto_id.exists': 'El difunto no existe',
+    'ubicacion_id.required': 'La ubicacion es requerida',
   }
 }
