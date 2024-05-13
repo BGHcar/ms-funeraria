@@ -4,7 +4,6 @@ import EjecucionServicio from 'App/Models/EjecucionServicio'
 import Servicio from 'App/Models/Servicio';
 import EjecucionservicioValidator from 'App/Validators/EjecucionservicioValidator';
 const { EmailClient } = require("@azure/communication-email");
-import Sala from 'App/Models/Sala';
 
 const connectionString = process.env['CONNECTION_STRING'];
 const client = new EmailClient(connectionString);
