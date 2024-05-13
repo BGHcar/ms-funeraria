@@ -1,5 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Cliente from 'App/Models/Cliente';
 import EjecucionServicio from 'App/Models/EjecucionServicio'
+import Servicio from 'App/Models/Servicio';
 import EjecucionservicioValidator from 'App/Validators/EjecucionservicioValidator';
 const { EmailClient } = require("@azure/communication-email");
 
@@ -12,6 +14,7 @@ export default class EjecucionServiciosController {
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(EjecucionservicioValidator)
         const theEjecucionServicio = await EjecucionServicio.create(data)
+        this.searchClientAndService(data.cliente_id, data.servicio_id)
         return response.json(theEjecucionServicio)
     }
 
@@ -48,15 +51,16 @@ export default class EjecucionServiciosController {
         return await theEjecucionServicio.delete()
     }
 
-    public async notify() {
+    public async notify(cliente: Cliente, servicio: Servicio) {
+
         const emailMessage = {
             senderAddress: process.env['SENDER_ADDRESS'],
             content: {
-                subject: "Correo electrónico de prueba",
-                plainText: "Se ha creado una ejecución de servicio.",
+                subject: "Se ha creado la ejecución de servicio.",
+                plainText: `Hola ${cliente.nombre}, se ha creado la ejecución del servicio ${servicio.nombre}.`
             },
             recipients: {
-                to: [{ address: "sr.macm@gmail.com" }],
+                to: [{ address: cliente.email }],
             },
         };
 
@@ -64,6 +68,12 @@ export default class EjecucionServiciosController {
         const result = await poller.pollUntilDone();
 
         console.log("Email sent with status: " + result.status);
+    }
+
+    public async searchClientAndService( id_client: number, id_service: number) {
+        const cliente: Cliente = await Cliente.findOrFail(id_client)
+        const servicio: Servicio = await Servicio.findOrFail(id_service)
+        this.notify(cliente, servicio)
     }
 
 }
