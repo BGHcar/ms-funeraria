@@ -44,8 +44,7 @@ export default class TitularValidator {
     telefono: schema.string({trim: true},[
       rules.maxLength(15),
     ]),
-    esta_vivo: schema.boolean([
-      rules.required(),
+    esta_vivo: schema.boolean.optional([
     ]),
     email: schema.string({trim: true},[
       rules.required(),

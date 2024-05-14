@@ -37,8 +37,7 @@ export default class ClienteValidator {
     telefono: schema.string({trim: true},[
       rules.maxLength(15),
     ]),
-    esta_vivo: schema.boolean([
-      rules.required(),
+    esta_vivo: schema.boolean.optional([
     ]),
     email: schema.string({trim: true},[
       rules.required(),
@@ -51,7 +50,6 @@ export default class ClienteValidator {
       rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
     ]),
     user_id: schema.string.optional({trim: true},[
-      rules.required(),
     ]),
     
   })
