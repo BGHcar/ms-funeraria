@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, ManyToMany, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import Feretro from './Feretro'
 
 export default class Conductor extends BaseModel {
   public static table = 'conductores'
@@ -32,4 +33,11 @@ export default class Conductor extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @manyToMany(() => Feretro, {
+    pivotTable: 'desplazamientos',
+    pivotForeignKey: 'conductor_id',
+    pivotRelatedForeignKey: 'feretro_id',
+  })
+  public feretros: ManyToMany<typeof Feretro>
 }

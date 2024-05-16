@@ -82,6 +82,7 @@ export default class ConductorValidator {
     'password.required': 'La contraseña es requerida',
     'password.minLength': 'La contraseña no puede tener menos de 8 caracteres',
     'password.regex': 'La contraseña debe tener al menos 8 caracteres, una mayuscula, una minuscula y un numero',
-    'user_id.required': 'El id de usuario es requerido'
+    'user_id.required': 'El id de usuario es requerido',
+    'feretros.*.number': 'El id de feretro debe ser un numero'
   }
 }

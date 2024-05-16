@@ -5,8 +5,6 @@ import ConductorValidator from 'App/Validators/ConductorValidator'
 export default class ConductoresController {
 
 
-
-
     // Create a new driver
 
     public async create({ request, response }: HttpContextContract) {
