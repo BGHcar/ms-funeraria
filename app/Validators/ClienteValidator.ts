@@ -21,25 +21,6 @@ export default class ClienteValidator {
       rules.maxLength(30),
       rules.required()
     ]),
-    apellido: schema.string({trim: true},[
-      rules.maxLength(30),
-      rules.required()
-    ]),
-    cedula: schema.string({trim: true},[
-      rules.maxLength(15),
-      rules.required(),
-      rules.unique({table: "clientes", column:"cedula"}),
-    ]),
-    edad: schema.number([
-      rules.required(),
-      rules.range(0,150),
-    ]),
-    telefono: schema.string({trim: true},[
-      rules.maxLength(15),
-    ]),
-    esta_vivo: schema.boolean([
-      rules.required(),
-    ]),
     email: schema.string({trim: true},[
       rules.required(),
       rules.email(),
@@ -48,7 +29,7 @@ export default class ClienteValidator {
     password: schema.string({trim: true},[
       rules.required(),
       rules.minLength(8),
-      rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
+      //rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
     ]),
     user_id: schema.string.optional({trim: true},[
       rules.required(),
@@ -69,12 +50,6 @@ export default class ClienteValidator {
   public messages: CustomMessages = {
     'nombre.required': 'El nombre es requerido',
     'nombre.maxLength': 'El nombre no puede tener mas de 30 caracteres',
-    'apellido.required': 'El apellido es requerido',
-    'apellido.maxLength': 'El apellido no puede tener mas de 30 caracteres',
-    'cedula.required': 'La cedula es requerida',
-    'cedula.maxLength': 'La cedula no puede tener mas de 15 caracteres',
-    'cedula.unique': 'La cedula ya esta en uso',
-    'telefono.maxLength': 'El telefono no puede tener mas de 15 caracteres',
     'email.required': 'El email es requerido',
     'email.email': 'El email no es valido',
     'email.unique': 'El email ya esta en uso',

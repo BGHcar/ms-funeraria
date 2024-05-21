@@ -18,14 +18,15 @@ export default class BeneficiariosController {
 
             if (!existingBeneficiario) {
                 // Eliminar el campo titular_id del cuerpo de la solicitud
-                const { titular_id, ...clienteData } = request.body()
+                
+                // const { titular_id, ...clienteData } = request.body()
 
-                // Crear el cliente con los datos filtrados
-                const theClient = await Cliente.create(clienteData)
+                // // Crear el cliente con los datos filtrados
+                // const theClient = await Cliente.create(clienteData)
 
                 // Asignar el cliente_id al objeto de datos del beneficiario
                 const data = await request.validate(BeneficiarioValidator)
-                data.cliente_id = theClient.id
+                // data.cliente_id = theClient.id
 
                 // Crear el beneficiario
                 const theBeneficiario = await Beneficiario.create(data)

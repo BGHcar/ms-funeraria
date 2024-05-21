@@ -34,9 +34,6 @@ export default class ClientesController {
         const body = request.body()
         const theCliente = await Cliente.findOrFail(params.id)
         theCliente.nombre = body.nombre
-        theCliente.apellido = body.apellido
-        theCliente.cedula = body.cedula
-        theCliente.telefono = body.telefono
         return theCliente.save()
     }
 

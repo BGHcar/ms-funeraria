@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Titular from './Titular'
+import Cliente from './Cliente'
 
 export default class Beneficiario extends BaseModel {
   table = 'beneficiarios'
@@ -41,6 +42,11 @@ export default class Beneficiario extends BaseModel {
     foreignKey: 'titular_id',
   })
   public Titular: BelongsTo<typeof Titular> 
+
+  @belongsTo(() => Cliente,{
+    foreignKey: 'cliente_id',
+  })
+  public Cliente: BelongsTo<typeof Cliente>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
