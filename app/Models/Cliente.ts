@@ -14,24 +14,6 @@ export default class Cliente extends BaseModel {
   public nombre: string
 
   @column()
-<<<<<<< HEAD
-=======
-  public apellido: string
-
-  @column()
-  public cedula: string
-
-  @column()
-  public edad: number
-
-  @column()
-  public telefono: string
-
-  @column()
-  public esta_vivo: boolean = true
-
-  @column()
->>>>>>> 9beeefc82ba770705eb3f6f4dde7b15850c97785
   public email: string
   
   @column()
