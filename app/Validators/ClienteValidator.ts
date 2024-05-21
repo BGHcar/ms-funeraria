@@ -21,6 +21,27 @@ export default class ClienteValidator {
       rules.maxLength(30),
       rules.required()
     ]),
+<<<<<<< HEAD
+=======
+    apellido: schema.string({trim: true},[
+      rules.maxLength(30),
+      rules.required()
+    ]),
+    cedula: schema.string({trim: true},[
+      rules.maxLength(15),
+      rules.required(),
+      rules.unique({table: "clientes", column:"cedula"}),
+    ]),
+    edad: schema.number([
+      rules.required(),
+      rules.range(0,150),
+    ]),
+    telefono: schema.string({trim: true},[
+      rules.maxLength(15),
+    ]),
+    esta_vivo: schema.boolean.optional([
+    ]),
+>>>>>>> 9beeefc82ba770705eb3f6f4dde7b15850c97785
     email: schema.string({trim: true},[
       rules.required(),
       rules.email(),
@@ -32,7 +53,6 @@ export default class ClienteValidator {
       //rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
     ]),
     user_id: schema.string.optional({trim: true},[
-      rules.required(),
     ]),
     
   })

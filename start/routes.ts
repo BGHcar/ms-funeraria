@@ -26,4 +26,6 @@ import "./routes/planes";
 import "./routes/serviciosxplanes";
 import "./routes/pagos";
 import "./routes/suscripciones";
+import "./routes/feretros";
+import "./routes/desplazamientos";
 

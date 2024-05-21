@@ -24,7 +24,7 @@ export default class Beneficiario extends BaseModel {
   public telefono: string
 
   @column()
-  public esta_vivo: boolean
+  public esta_vivo: boolean = true
 
   @column()
   public email: string
