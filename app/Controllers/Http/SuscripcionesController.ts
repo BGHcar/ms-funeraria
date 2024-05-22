@@ -10,13 +10,13 @@ export default class SuscripcionesController {
     public async create({ request, response }: HttpContextContract) {
 
         const data = await request.validate(SuscripcionValidator)
-        const cliente_id = (await Titular.findOrFail(data.titular_id)).cliente_id
+        const cliente_id = (await Titular.findOrFail(data.cliente_id)).cliente_id
         const existingSuscripcion = await Suscripcion.query().where('cliente_id', cliente_id).first()
 
         if (existingSuscripcion) {
             return response.status(400).json({ message: 'Ya existe una suscripcion con este cliente' })
         } else {
-            const { titular_id, ...clienteData } = data
+            const { cliente_id, ...clienteData } = data
             const newData = { ...clienteData, cliente_id }
             const theSuscripcion = await Suscripcion.create(newData)
             return response.json(theSuscripcion)
