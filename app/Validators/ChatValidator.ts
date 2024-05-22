@@ -12,8 +12,10 @@ export default class ChatValidator {
     */ 
   public schema = schema.create({
     eservicio_id: schema.number([
-      rules.required()
+      rules.required(),
+      rules.exists({ table: 'eservicios', column: 'id' })
     ]),
+
   })
 
   /**
