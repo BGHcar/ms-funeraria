@@ -1,5 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Cliente from 'App/Models/Cliente'
 import Titular from 'App/Models/Titular'
 import TitularValidator from 'App/Validators/TitularValidator'
 
