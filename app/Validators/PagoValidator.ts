@@ -15,6 +15,7 @@ export default class PagoValidator {
   public schema = schema.create({
     monto: schema.number([
       rules.required(),
+      rules.range(0 , 100000000000),
     ]),
     fecha: schema.string({trim: true},[
     ]),
