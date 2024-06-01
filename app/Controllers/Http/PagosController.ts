@@ -9,7 +9,11 @@ export default class PagosController {
     // Create a new Payment
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(PagoValidator)
-        const thePago = await Pago.create(data)
+        const thePago = await Pago.create({
+            monto: data.monto,
+            fecha: data.fecha,
+            suscripcion_id: data.suscripcion?.id
+        })
         return response.json(thePago)
     }
 
@@ -25,7 +29,7 @@ export default class PagosController {
 
     public async findById({ params }:
         HttpContextContract) {
-        const thePago = await Pago.findOrFail(params.id)
+        let thePago = await Pago.query().where('id', params.id).firstOrFail()
         return thePago
     }
 

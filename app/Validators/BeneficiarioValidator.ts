@@ -46,9 +46,13 @@ export default class BeneficiarioValidator {
       rules.minLength(8),
       rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)  // Esta expresion regular valida que la contraseña tenga al menos 8 caracteres, una mayuscula, una minuscula y un numero
     ]),
-    titular_id: schema.number([
-    ]),
+    titular: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'titulares', column: 'id' })]),
+    }),
     cliente_id: schema.number.optional([
+    ]),
+    titular_id: schema.number.optional([
+      rules.exists({ table: 'titulares', column: 'id' })
     ]),
 
   })
@@ -79,7 +83,6 @@ export default class BeneficiarioValidator {
     'password.required': 'La contraseña es requerida',
     'password.minLength': 'La contraseña debe tener al menos 8 caracteres',
     'password.regex': 'La contraseña debe tener al menos una mayuscula, una minuscula y un numero',
-    'user_id.required': 'El id del usuario es requerido',
-    'titular_id.required': 'El id del titular es requerido',
+    'titular.id.exists': 'El titular no existe',
   }
 }
