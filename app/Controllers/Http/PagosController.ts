@@ -21,7 +21,7 @@ export default class PagosController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let pagos:Pago[] = await Pago.query().paginate(page, perPage)
+        let pagos:Pago[] = await Pago.query().preload('suscripcion').paginate(page, perPage)
         return pagos
     }
 
@@ -29,7 +29,7 @@ export default class PagosController {
 
     public async findById({ params }:
         HttpContextContract) {
-        let thePago = await Pago.query().where('id', params.id).firstOrFail()
+        let thePago = await Pago.query().where('id', params.id).preload('suscripcion').firstOrFail()
         return thePago
     }
 
