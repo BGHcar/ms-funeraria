@@ -21,8 +21,8 @@ export default class SuscripcionesController {
             return response.status(400).json({ message: 'Ya existe una suscripcion con este cliente' })
         } else {
             const theSuscripcion = await Suscripcion.create({
-               cliente_id: theCliente.id,
-               plan_id: thePlan.id
+                cliente_id: theCliente.id,
+                plan_id: thePlan.id
             })
             return response.json(theSuscripcion)
         }
