@@ -19,9 +19,8 @@ export default class CremacionValidator {
     ]),
     fecha_hora: schema.string({trim: true},[
     ]),
-    servicio_id: schema.number([
-      rules.exists({table: "servicios", column: "id"})
-    ]),
+    servicio_id: schema.number.nullableAndOptional(),
+
     sala_id: schema.number([
       rules.exists({table: "salas", column: "id"})
     ])

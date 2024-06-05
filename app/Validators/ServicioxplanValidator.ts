@@ -24,12 +24,15 @@ export default class ServicioxplanValidator {
    *    ```
    */
   public schema = schema.create({
-    servicio_id: schema.number([
-      rules.required()
-    ]),
-    plan_id: schema.number([
-      rules.required(),
-    ]),
+    servicio: schema.object.optional().members({
+      id:schema.number([rules.exists({
+        table:"servicios",
+        column:"id"
+      })])
+    }),
+    plan: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'planes', column: 'id' })]),
+    }),
   })
 
   /**
