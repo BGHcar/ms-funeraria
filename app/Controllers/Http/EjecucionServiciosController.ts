@@ -112,7 +112,7 @@ export default class EjecucionServiciosController {
                 senderAddress: process.env['SENDER_ADDRESS'],
                 content: {
                     subject: "Se ha creado la ejecución de servicio.",
-                    plainText: `Hola ${cliente.nombre} ${cliente.apellido},\n` +
+                    plainText: `Hola ${cliente.nombre},\n` +
                         `Usted ha solicitado ${servicio.nombre} de funeraria.\n` +
                         `Para la Cremación:\n` +
                         `La sala asignada es ${nombreSalaCremacion}, en la ciudad de ${ciudadSalaCremacion}, en la sede ${nombreSedeCremacion}.\n` +

@@ -8,12 +8,17 @@ export default class BeneficiariosController {
 
     // Create a new beneficiary
     public async create({ request, response }: HttpContextContract) {
-        const totalData = await this.findTitularAndPlan(request.body().titular_id)
+        const data = await request.validate(BeneficiarioValidator)
+        let totalData = [0, 0]
+        if (data.titular) {
+            totalData = await this.findTitularAndPlan(data.titular.id)
+        }
+        const theTitular = await Titular.findOrFail(data.titular?.id)
 
         if (totalData[0] < totalData[1]) {
             const existingBeneficiario = await Beneficiario.query()
                 .where('cedula', request.body().cedula)
-                .where('titular_id', request.body().titular_id)
+                .where('titular_id', request.body().titular.id)
                 .first()
 
             if (!existingBeneficiario) {
@@ -25,11 +30,21 @@ export default class BeneficiariosController {
                 // const theClient = await Cliente.create(clienteData)
 
                 // Asignar el cliente_id al objeto de datos del beneficiario
-                const data = await request.validate(BeneficiarioValidator)
                 // data.cliente_id = theClient.id
 
                 // Crear el beneficiario
-                const theBeneficiario = await Beneficiario.create(data)
+                const theBeneficiario = await Beneficiario.create({
+                    nombre: data.nombre,
+                    apellido: data.apellido,
+                    cedula: data.cedula,
+                    edad: data.edad,
+                    telefono: data.telefono,
+                    esta_vivo: data.esta_vivo,
+                    email: data.email,
+                    password: data.password,
+                    titular_id: theTitular.id,
+                    cliente_id: data.cliente_id
+                })
 
                 return response.status(200).json(theBeneficiario)
             } else {

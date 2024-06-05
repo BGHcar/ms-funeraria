@@ -9,7 +9,11 @@ export default class PagosController {
     // Create a new Payment
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(PagoValidator)
-        const thePago = await Pago.create(data)
+        const thePago = await Pago.create({
+            monto: data.monto,
+            fecha: data.fecha,
+            suscripcion_id: data.suscripcion?.id
+        })
         return response.json(thePago)
     }
 
@@ -17,7 +21,7 @@ export default class PagosController {
     public async findAll({request}: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let pagos:Pago[] = await Pago.query().paginate(page, perPage)
+        let pagos:Pago[] = await Pago.query().preload('suscripcion').paginate(page, perPage)
         return pagos
     }
 
@@ -25,7 +29,7 @@ export default class PagosController {
 
     public async findById({ params }:
         HttpContextContract) {
-        const thePago = await Pago.findOrFail(params.id)
+        let thePago = await Pago.query().where('id', params.id).preload('suscripcion').firstOrFail()
         return thePago
     }
 

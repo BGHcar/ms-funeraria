@@ -4,9 +4,6 @@ import SedeValidator from 'App/Validators/SedeValidator'
 
 export default class SedesController {
 
-
-
-
     // Create a new sede
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(SedeValidator)

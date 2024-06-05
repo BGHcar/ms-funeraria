@@ -24,12 +24,12 @@ export default class SuscripcionValidator {
    *    ```
    */
   public schema = schema.create({
-    cliente_id: schema.number([
-      rules.required()
-    ]),
-    plan_id: schema.number([
-      rules.required(),
-    ])
+    cliente: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'titulares', column: 'id' })]),
+    }),
+    plan: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'planes', column: 'id' })]),
+    }),
   })
 
   /**
@@ -44,7 +44,7 @@ export default class SuscripcionValidator {
    *
    */
   public messages: CustomMessages = {
-    'cliente_id.required':'El cliente es requerido',
-    'plan_id.required':'El plan es requerido',
+    'cliente.id.exists': 'El titular no existe',
+    'plan.id.exists': 'El plan no existe',
   }
 }

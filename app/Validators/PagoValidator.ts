@@ -15,13 +15,13 @@ export default class PagoValidator {
   public schema = schema.create({
     monto: schema.number([
       rules.required(),
+      rules.range(0 , 100000000000),
     ]),
     fecha: schema.string({trim: true},[
     ]),
-    suscripcion_id: schema.number([
-      rules.required(),
-      rules.exists({table: "suscripciones", column: "id"})
-    ]),
+    suscripcion: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'suscripciones', column: 'id' })]),
+    }),
   })
 
   /**
@@ -38,7 +38,7 @@ export default class PagoValidator {
   public messages: CustomMessages = {
     'monto.required': 'El monto es requerido',
     'fecha.required': 'La fecha es requerida',
-    'suscripcion_id.required': 'La suscripcion es requerida',
-    'suscripcion_id.exists': 'La suscripcion no existe'
+    'monto.range': 'El monto no puede ser negativo',
+    'suscripcion.id.exists': 'La suscripcion no existe',
   }
 }

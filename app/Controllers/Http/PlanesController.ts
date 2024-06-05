@@ -23,8 +23,7 @@ export default class PlanesController {
 
     // Get by id
 
-    public async findById({ params }:
-        HttpContextContract) {
+    public async findById({ params }: HttpContextContract) {
         let thePlan: Plan = await Plan.query().where('id', params.id).preload('servicios').preload('clientes').firstOrFail()
         return thePlan
     }

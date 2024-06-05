@@ -5,9 +5,6 @@ import CiudadValidator from 'App/Validators/CiudadValidator'
 
 export default class CiudadesController {
 
-
-
-
     // Create a new City
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(CiudadValidator)
@@ -36,7 +33,7 @@ export default class CiudadesController {
         const body = request.body()
         const theCiudad = await Ciudad.findOrFail(params.id)
         theCiudad.nombre = body.nombre
-        theCiudad.departamento_id = body.departamendo_id
+        theCiudad.departamento_id = body.departamento_id
         return theCiudad.save()
     }
 
