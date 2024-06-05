@@ -16,7 +16,7 @@ export default class Traslado extends BaseModel {
   public fecha_hora: string
 
   @column()
-  public servicio_id: number
+  public servicio_id: number|null
   
   @belongsTo(() => Servicio,{
     foreignKey: 'servicio_id',
