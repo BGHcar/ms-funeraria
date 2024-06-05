@@ -1,4 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Plan from 'App/Models/Plan'
+import Servicio from 'App/Models/Servicio'
 import ServicioxPlan from 'App/Models/ServicioxPlan'
 import ServicioxplanValidator from 'App/Validators/ServicioxplanValidator'
 
@@ -6,8 +8,14 @@ export default class ServiciosxplanesController {
 
     // Create 
     public async create({ request, response }: HttpContextContract) {
+        
         const data = await request.validate(ServicioxplanValidator)
-        const theServicioxPlan = await ServicioxPlan.create(data)
+        const theServicio = await Servicio.findOrFail(data.servicio?.id)
+        const thePlan = await Plan.findOrFail(data.plan?.id)
+        const theServicioxPlan = await ServicioxPlan.create({
+            servicio_id: theServicio.id,
+            plan_id: thePlan.id
+         })
         return response.json(theServicioxPlan)
     }
 

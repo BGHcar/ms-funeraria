@@ -5,8 +5,6 @@ import ComentarioValidator from 'App/Validators/ComentarioValidator'
 
 export default class EjecucionServiciosController {
 
-
-
     // Create a new Comentario
     public async create({ request,response }: HttpContextContract) {
         const data = await request.validate(ComentarioValidator)

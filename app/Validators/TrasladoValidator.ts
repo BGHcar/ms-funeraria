@@ -36,9 +36,8 @@ export default class TrasladoValidator {
       rules.required()
     ]),
     
-    servicio_id: schema.number([
-      rules.required()
-    ])
+    servicio_id: schema.number.nullableAndOptional(),
+
   })
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`

@@ -14,7 +14,7 @@ export default class Sepultura extends BaseModel {
   public fecha_hora : string
 
   @column()
-  public servicio_id: number
+  public servicio_id: number|null
 
   @column()
   public sala_id: number

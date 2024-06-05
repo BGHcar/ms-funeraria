@@ -39,7 +39,16 @@ export default class ServicioValidator {
     duracion: schema.number([
       rules.required(),
       rules.range(0,10000000000000),
-    ])
+    ]),
+    sepultura: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'sepulturas', column: 'id' })]),
+    }),
+    traslado: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'traslados', column: 'id' })]),
+    }),
+    cremacion: schema.object.optional().members({
+      id: schema.number([rules.exists({ table: 'cremaciones', column: 'id' })]),
+    }),
   })
 
   /**
