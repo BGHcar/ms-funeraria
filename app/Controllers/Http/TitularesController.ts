@@ -20,16 +20,17 @@ export default class TitularesController {
         public async findAll({request}: HttpContextContract) {
             const page = request.input('page', 1)
             const perPage = request.input('perPage', 20)
-            let titulares: Titular[] = await Titular.query().preload("Beneficiarios").paginate(page, perPage)
+            let titulares: Titular[] = await Titular.query().preload("beneficiarios").paginate(page, perPage)
             return titulares
         }
     
         // Get an owner by id
     
         public async findById({ params }: HttpContextContract) {
-            const theTitular = await Titular.query().where('id', params.id).preload("Beneficiarios").firstOrFail()
+            let theTitular = await Titular.query().where('id', params.id).preload("beneficiarios").firstOrFail()
             return theTitular
         }
+
 
         // Update an owner by id
 

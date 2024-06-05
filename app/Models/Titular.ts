@@ -39,7 +39,7 @@ export default class Titular extends BaseModel {
   @hasMany(() => Beneficiario, {
     foreignKey: 'titular_id'
   })
-  public Beneficiarios: HasMany<typeof Beneficiario>
+  public beneficiarios: HasMany<typeof Beneficiario>
 
   @belongsTo(() => Cliente,{
     foreignKey: 'cliente_id'

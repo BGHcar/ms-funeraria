@@ -20,7 +20,6 @@ export default class ClientesController {
         return clientes
     }
 
-
     // Get a client by id
 
     public async findById({ params }: HttpContextContract) {
