@@ -63,7 +63,7 @@ export default class BeneficiariosController {
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)
         const perPage = request.input('perPage', 20)
-        let beneficiarios: Beneficiario[] = await Beneficiario.query().paginate(page, perPage)
+        let beneficiarios: Beneficiario[] = await Beneficiario.query().preload('titular').paginate(page, perPage)
         return beneficiarios
     }
 
@@ -71,7 +71,7 @@ export default class BeneficiariosController {
 
     public async findById({ params, response }: HttpContextContract) {
         try {
-            const theBeneficiario = await Beneficiario.findOrFail(params.id)
+            const theBeneficiario = (await Beneficiario.query().where('id', params.id).preload('titular').firstOrFail())
             return theBeneficiario
         } catch (error) {
             return response.status(404).json({ message: 'Beneficiario no encontrado' })

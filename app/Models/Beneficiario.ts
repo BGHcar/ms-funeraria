@@ -41,7 +41,7 @@ export default class Beneficiario extends BaseModel {
   @belongsTo(() => Titular,{
     foreignKey: 'titular_id',
   })
-  public Titular: BelongsTo<typeof Titular> 
+  public titular: BelongsTo<typeof Titular> 
 
   @belongsTo(() => Cliente,{
     foreignKey: 'cliente_id',
