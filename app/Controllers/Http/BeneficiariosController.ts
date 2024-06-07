@@ -111,9 +111,9 @@ export default class BeneficiariosController {
     }
 
     public async findTitularAndPlan(titular_id: number) {
-        const titular = await Titular.query().where('id', titular_id).preload('Beneficiarios').firstOrFail()
+        const titular = await Titular.query().where('id', titular_id).preload('beneficiarios').firstOrFail()
         const theClient = await Cliente.query().where('id', titular.cliente_id).preload('planes').firstOrFail()
-        return ([titular.Beneficiarios.length, theClient.planes[0].max_beneficiarios])
+        return ([titular.beneficiarios.length, theClient.planes[0].max_beneficiarios])
     }
     
 }
