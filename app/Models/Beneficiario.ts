@@ -46,7 +46,7 @@ export default class Beneficiario extends BaseModel {
   @belongsTo(() => Cliente,{
     foreignKey: 'cliente_id',
   })
-  public Cliente: BelongsTo<typeof Cliente>
+  public cliente: BelongsTo<typeof Cliente>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
