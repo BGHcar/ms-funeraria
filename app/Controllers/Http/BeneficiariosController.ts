@@ -78,6 +78,16 @@ export default class BeneficiariosController {
         }
     }
 
+    public async findAllByTitular({ params, response }: HttpContextContract) {
+        try {
+            let beneficiarios: Beneficiario[] = await Beneficiario.query().where('titular_id', params.id).preload('titular').paginate(1, 20)
+            return beneficiarios
+        } catch (error) {
+            return response.status(404).json({ message: 'Titular no encontrado' })
+        }
+    }
+
+
     // Update a beneficiary by id
 
     public async update({ params, request, response }: HttpContextContract) {
