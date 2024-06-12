@@ -28,7 +28,7 @@ export default class EjecucionServiciosController {
         let ejecucion_servicios: EjecucionServicio[] = await EjecucionServicio
             .query()
             .preload('cliente', (query) => {
-                query.select(['nombre', 'apellido', 'edad', 'cedula', 'telefono', 'email'])
+                query.select(['nombre','email'])
             })
             .preload('servicio', (query) => {
                 query.select(['nombre', 'precio', 'descripcion', 'duracion'])

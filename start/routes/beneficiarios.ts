@@ -6,4 +6,5 @@ Route.group(() => {
     Route.post("/beneficiarios", "BeneficiariosController.create");
     Route.put("/beneficiarios/:id", "BeneficiariosController.update");
     Route.delete("/beneficiarios/:id", "BeneficiariosController.delete");
+    Route.get("/beneficiariostitular/:id", "BeneficiariosController.findAllByTitular");
 })

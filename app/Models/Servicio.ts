@@ -22,10 +22,10 @@ export default class Servicio extends BaseModel {
   @column()
   public duracion : number
 
-  @hasMany(() => Traslado, {
+  @hasOne(() => Traslado, {
     foreignKey: 'servicio_id'
   })
-  public traslados: HasMany<typeof Traslado>
+  public traslado: HasOne<typeof Traslado>
 
   @hasOne(() => Sepultura, {
     foreignKey: 'servicio_id'
