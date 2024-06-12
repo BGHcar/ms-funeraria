@@ -40,6 +40,7 @@ export default class EjecucionServiciosController {
         const body = request.body()
         const theComentario = await Comentario.findOrFail(params.id)
         theComentario.contenido = body.contenido
+        theComentario.eservicio_id = body.eservicio_id
         return theComentario.save()
     }
 
