@@ -45,6 +45,13 @@ export default class SuscripcionesController {
         return theSuscripcion
     }
 
+    public async findByClienteId({ params }: HttpContextContract) {
+        let theTitular = await Titular.findOrFail(params.id)
+        let theCliente = await Cliente.findOrFail(theTitular.cliente_id)
+        let theSuscripcion = await Suscripcion.query().where('cliente_id', theCliente.id).preload('plan').preload('cliente').firstOrFail()
+        return theSuscripcion
+    }
+
     // Delete
 
     public async delete({ params, response }: HttpContextContract) {

@@ -6,4 +6,5 @@ Route.group(() => {
     Route.post("/suscripciones", "SuscripcionesController.create");
     Route.put("/suscripciones/:id", "SuscripcionesController.update");
     Route.delete("/suscripciones/:id", "SuscripcionesController.delete");
+    Route.get("/suscripcionescliente/:id", "SuscripcionesController.findByClienteId");
 })
