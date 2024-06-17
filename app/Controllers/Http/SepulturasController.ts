@@ -30,6 +30,15 @@ export default class SepulturasController {
         return theSepultura
     }
 
+    public async findAllByServicio({ params, response }: HttpContextContract) {
+        try {
+            let servicios: Sepultura[] = await Sepultura.query().where('servicio_id', params.id).preload('servicio').paginate(1, 20)
+            return servicios
+        } catch (error) {
+            return response.status(404).json({ message: 'Servicio no encontrado' })
+        }
+    }
+
     // Update a sepultura by id
 
     public async update({ params, request }: HttpContextContract) {

@@ -10,9 +10,9 @@ export default class extends BaseSchema {
       table.string('ubicacion')
       
       //ForeingKey
-      table.integer('difunto_id').unsigned().references('clientes.id').notNullable()
-      table.integer('servicio_id').unsigned().references('servicios.id').notNullable()
-      table.integer('cliente_id').unsigned().references('clientes.id').notNullable()
+      table.integer('difunto_id').unsigned().references('clientes.id').onDelete('CASCADE').notNullable()
+      table.integer('servicio_id').unsigned().references('servicios.id').onDelete('CASCADE').notNullable()
+      table.integer('cliente_id').unsigned().references('clientes.id').onDelete('CASCADE').notNullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

@@ -24,15 +24,12 @@ export default class TrasladoValidator {
    *    ```
    */
   public schema = schema.create({
-    origen: schema.string({trim: true},[
-      rules.maxLength(100),
-      rules.required()
+    ciudad_id: schema.number([
+      rules.required(),
     ]),
-    destino: schema.string({trim: true},[
+
+    direccion: schema.string({trim: true},[
       rules.maxLength(100),
-      rules.required()
-    ]),
-    fecha_hora: schema.string({trim: true},[
       rules.required()
     ]),
     

@@ -21,7 +21,14 @@ export default class CremacionesController {
         let cremacion:Cremacion[] = await Cremacion.query().paginate(page, perPage)
         return cremacion
     }
-
+    public async findAllByServicio({ params, response }: HttpContextContract) {
+        try {
+            let cremacion: Cremacion[] = await Cremacion.query().where('servicio_id', params.id).preload('servicio').paginate(1, 20)
+            return cremacion
+        } catch (error) {
+            return response.status(404).json({ message: 'Servicio no encontrado' })
+        }
+    }
     // Get a cremacion by id
 
     public async findById({ params }: HttpContextContract) {
@@ -34,7 +41,7 @@ export default class CremacionesController {
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theCremacion = await Cremacion.findOrFail(params.id)
-        theCremacion.ubicacion = body.ubicacion
+        theCremacion.ciudad_id = body.ciudad_id
         theCremacion.fecha_hora = body.fecha_hora
         return theCremacion.save()
     }

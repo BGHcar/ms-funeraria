@@ -45,6 +45,7 @@ export default class Titular extends BaseModel {
     foreignKey: 'cliente_id'
   })
   public cliente: BelongsTo<typeof Cliente>
+  
 
 
   @column.dateTime({ autoCreate: true })
