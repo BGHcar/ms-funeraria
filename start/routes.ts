@@ -28,4 +28,5 @@ import "./routes/pagos";
 import "./routes/suscripciones";
 import "./routes/feretros";
 import "./routes/desplazamientos";
+import "./routes/epayco";
 

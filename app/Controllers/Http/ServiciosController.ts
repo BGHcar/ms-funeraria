@@ -14,17 +14,17 @@ export default class ServiciosController {
         const data = await request.validate(ServicioValidator)
         const theServicio = await Servicio.create(data)
         if(data.cremacion){
-            let theCremation:Cremacion=await Cremacion.findOrFail(data.cremacion?.id)
+            let theCremation:Cremacion=await Cremacion.findOrFail(data.cremacion.id)
             theCremation.servicio_id=theServicio.id
             theCremation.save()
         }
         if(data.sepultura){
-            let theSepultura:Sepultura=await Sepultura.findOrFail(data.sepultura?.id)
+            let theSepultura:Sepultura=await Sepultura.findOrFail(data.sepultura.id)
             theSepultura.servicio_id=theServicio.id
             theSepultura.save()
         }
         if(data.traslado){
-            let theTraslado:Traslado=await Traslado.findOrFail(data.traslado?.id)
+            let theTraslado:Traslado=await Traslado.findOrFail(data.traslado.id)
             theTraslado.servicio_id=theServicio.id
             theTraslado.save()
         }
