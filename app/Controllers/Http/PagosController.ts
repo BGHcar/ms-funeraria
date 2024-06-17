@@ -43,9 +43,11 @@ export default class PagosController {
 
     // Get all Payment by Subscription
 
-    public async findBySubscription({ params }:
+    public async findBySubscription({ request, params}:
         HttpContextContract) {
-        const thePago = await Pago.findBy('suscripcion_id', params.id)
-        return thePago
+        const page = request.input('page', 1)
+        const perPage = request.input('perPage', 20)
+        let pagos:Pago[] = await Pago.query().where('suscripcion_id', params.id).preload('suscripcion').paginate(page, perPage)
+        return pagos
     }
 }
