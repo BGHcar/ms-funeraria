@@ -35,8 +35,10 @@ export default class SepulturasController {
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theSepultura = await Sepultura.findOrFail(params.id)
-        theSepultura.ubicacion = body.ubicacion
+        theSepultura.ciudad_id = body.ubicacion
         theSepultura.fecha_hora = body.fecha_hora
+        theSepultura.sala_id = body.ubicacion
+
         return theSepultura.save()
     }
     
