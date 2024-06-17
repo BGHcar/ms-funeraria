@@ -16,7 +16,7 @@ export default class SepulturaValidator {
     */
   public schema = schema.create({
 
-    ubicacion: schema.string([
+    ciudad_id: schema.number([
       rules.required(),
     ]),
     fecha_hora: schema.string([

@@ -13,17 +13,16 @@ export default class CremacionValidator {
 
     */
   public schema = schema.create({
-    ubicacion: schema.string({trim: true},[
-      rules.maxLength(50),
-      rules.minLength(1),
+    ciudad_id: schema.number([
+      rules.required(),
     ]),
-    fecha_hora: schema.string({trim: true},[
+    fecha_hora: schema.string([
+      rules.required(),
     ]),
     servicio_id: schema.number.nullableAndOptional(),
-
     sala_id: schema.number([
-      rules.exists({table: "salas", column: "id"})
-    ])
+      rules.required(),
+    ]),
   })
     
 

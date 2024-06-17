@@ -30,13 +30,24 @@ export default class SepulturasController {
         return theSepultura
     }
 
+    public async findAllByServicio({ params, response }: HttpContextContract) {
+        try {
+            let servicios: Sepultura[] = await Sepultura.query().where('servicio_id', params.id).preload('servicio').paginate(1, 20)
+            return servicios
+        } catch (error) {
+            return response.status(404).json({ message: 'Servicio no encontrado' })
+        }
+    }
+
     // Update a sepultura by id
 
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theSepultura = await Sepultura.findOrFail(params.id)
-        theSepultura.ubicacion = body.ubicacion
+        theSepultura.ciudad_id = body.ubicacion
         theSepultura.fecha_hora = body.fecha_hora
+        theSepultura.sala_id = body.ubicacion
+
         return theSepultura.save()
     }
     

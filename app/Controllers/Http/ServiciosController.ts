@@ -1,8 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Cremacion from 'App/Models/Cremacion'
-import Sepultura from 'App/Models/Sepultura'
+
 import Servicio from 'App/Models/Servicio'
-import Traslado from 'App/Models/Traslado'
+
 import ServicioValidator from 'App/Validators/ServicioValidator'
 
 export default class ServiciosController {
@@ -13,21 +12,6 @@ export default class ServiciosController {
     public async create({ request, response }: HttpContextContract) {
         const data = await request.validate(ServicioValidator)
         const theServicio = await Servicio.create(data)
-        if(data.cremacion){
-            let theCremation:Cremacion=await Cremacion.findOrFail(data.cremacion.id)
-            theCremation.servicio_id=theServicio.id
-            theCremation.save()
-        }
-        if(data.sepultura){
-            let theSepultura:Sepultura=await Sepultura.findOrFail(data.sepultura.id)
-            theSepultura.servicio_id=theServicio.id
-            theSepultura.save()
-        }
-        if(data.traslado){
-            let theTraslado:Traslado=await Traslado.findOrFail(data.traslado.id)
-            theTraslado.servicio_id=theServicio.id
-            theTraslado.save()
-        }
         return response.json(theServicio)
     }
 

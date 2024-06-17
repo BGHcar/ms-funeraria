@@ -19,7 +19,14 @@ export default class EjecucionServiciosController {
 
         return response.json(theEjecucionServicio)
     }
-
+    public async findAllByTitular({ params, response }: HttpContextContract) {
+        try {
+            let beneficiarios: EjecucionServicio[] = await EjecucionServicio.query().where('cliente_id', params.id).preload('cliente').paginate(1, 20)
+            return beneficiarios
+        } catch (error) {
+            return response.status(404).json({ message: 'Titular no encontrado' })
+        }
+    }
     // Get all Ejecucion Servicio
     public async findAll({ request }: HttpContextContract) {
         const page = request.input('page', 1)

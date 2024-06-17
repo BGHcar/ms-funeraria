@@ -12,7 +12,14 @@ export default class TrasladosController {
         const theTraslado = await Traslado.create(data)
         return response.json(theTraslado)
     }
-
+    public async findAllByServicio({ params, response }: HttpContextContract) {
+        try {
+            let traslado: Traslado[] = await Traslado.query().where('servicio_id', params.id).preload('servicio').paginate(1, 20)
+            return traslado
+        } catch (error) {
+            return response.status(404).json({ message: 'Servicio no encontrado' })
+        }
+    }
     // Get all traslados
 
     public async findAll({ request }: HttpContextContract) {
@@ -34,9 +41,8 @@ export default class TrasladosController {
     public async update({ params, request }: HttpContextContract) {
         const body = request.body()
         const theTraslado = await Traslado.findOrFail(params.id)
-        theTraslado.origen = body.origen
-        theTraslado.destino = body.destino
-        theTraslado.fecha_hora = body.fecha_hora
+        theTraslado.ciudad_id = body.ciudad_id
+        theTraslado.direccion = body.direccion
         return theTraslado.save()
     }
 

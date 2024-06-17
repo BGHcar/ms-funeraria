@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Servicio from './Servicio'
 import Sala from './Sala'
+import Ciudad from './Ciudad'
 
 export default class Cremacion extends BaseModel {
   public static table = 'cremaciones'
@@ -9,7 +10,7 @@ export default class Cremacion extends BaseModel {
   public id: number
 
   @column()
-  public ubicacion : string
+  public ciudad_id : number
 
   @column()
   public fecha_hora : string
@@ -29,6 +30,12 @@ export default class Cremacion extends BaseModel {
     foreignKey: 'sala_id',
   })
   public sala: BelongsTo<typeof Sala>
+
+  
+  @belongsTo(() => Ciudad,{
+    foreignKey: 'ciudad_id',
+  })
+  public ciudad: BelongsTo<typeof Ciudad>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
