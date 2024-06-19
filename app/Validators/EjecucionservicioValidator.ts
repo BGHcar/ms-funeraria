@@ -25,8 +25,6 @@ export default class EjecucionservicioValidator {
     difunto_id: schema.number([
       rules.exists({ table: "clientes", column: "id" })
     ]),
-    ubicacion: schema.string({ trim: true }, [
-    ]),
   })
 
   /**

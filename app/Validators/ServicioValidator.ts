@@ -28,10 +28,6 @@ export default class ServicioValidator {
       rules.maxLength(30),
       rules.required()
     ]),
-    precio: schema.number([
-      rules.required(),
-      rules.range(0,10000000000000)
-    ]),
     descripcion: schema.string({trim: true},[
       rules.maxLength(255),
       rules.required(),
