@@ -10,6 +10,9 @@ export default class Comentario extends BaseModel {
   public contenido:string
 
   @column()
+  public calificacion:number
+
+  @column()
   public eservicio_id:number
 
   @belongsTo(() => EjecucionServicio,{
