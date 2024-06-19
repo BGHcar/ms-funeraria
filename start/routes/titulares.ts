@@ -6,4 +6,5 @@ Route.group(() => {
     Route.post("/titulares", "TitularesController.create");
     Route.put("/titulares/:id", "TitularesController.update");
     Route.delete("/titulares/:id", "TitularesController.delete");
+    Route.get("/titularesemail/:email", "TitularesController.findByEmail");
 })

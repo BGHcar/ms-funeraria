@@ -52,5 +52,10 @@ export default class TitularesController {
             return await theTitular.delete()
         }
 
+        public async findByEmail({ params }: HttpContextContract) {
+            const theTitular = await Titular.findBy('email', params.email)
+            return theTitular
+        }
+
 
 }
