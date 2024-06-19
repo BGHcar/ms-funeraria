@@ -39,7 +39,7 @@ export default class PagosController {
         HttpContextContract) {
         const thePago = await Pago.findBy('usuario_id', params.id)
         return thePago
-    }
+    }   
 
     // Get all Payment by Subscription
 

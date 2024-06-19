@@ -38,7 +38,7 @@ export default class EjecucionServiciosController {
                 query.select(['nombre','email'])
             })
             .preload('servicio', (query) => {
-                query.select(['nombre', 'precio', 'descripcion', 'duracion'])
+                query.select(['nombre', 'descripcion', 'duracion'])
             })
             .preload('chat', (query) => {
                 query.preload('mensajes', (subQuery) => {

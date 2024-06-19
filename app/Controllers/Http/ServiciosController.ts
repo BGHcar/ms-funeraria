@@ -49,7 +49,6 @@ export default class ServiciosController {
         const body = request.body()
         const theServicio = await Servicio.findOrFail(params.id)
         theServicio.nombre = body.nombre
-        theServicio.precio = body.precio
         theServicio.descripcion = body.descripcion
         theServicio.duracion = body.duracion
         return theServicio.save()

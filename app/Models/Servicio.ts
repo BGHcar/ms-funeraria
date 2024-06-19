@@ -14,9 +14,6 @@ export default class Servicio extends BaseModel {
   public nombre : string
 
   @column()
-  public precio : number
-
-  @column()
   public descripcion : string
 
   @column()

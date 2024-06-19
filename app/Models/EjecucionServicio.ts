@@ -21,8 +21,6 @@ export default class EjecucionServicio extends BaseModel {
   @column()
   public difunto_id: number
 
-  @column()
-  public ubicacion: string
 
   @belongsTo(() => Servicio,{
     foreignKey: 'servicio_id',
