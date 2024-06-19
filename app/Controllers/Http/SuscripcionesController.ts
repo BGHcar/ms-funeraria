@@ -45,11 +45,13 @@ export default class SuscripcionesController {
         return theSuscripcion
     }
 
-    public async findByClienteId({ params }: HttpContextContract) {
+    public async findByClienteId({ params, request }: HttpContextContract) {
+        const page = request.input('page', 1)
+        const perPage = request.input('perPage', 20)
         let theTitular = await Titular.findOrFail(params.id)
         let theCliente = await Cliente.findOrFail(theTitular.cliente_id)
-        let theSuscripcion = await Suscripcion.query().where('cliente_id', theCliente.id).preload('plan').preload('cliente').firstOrFail()
-        return theSuscripcion
+        let suscripciones = await Suscripcion.query().where('cliente_id', theCliente.id).preload('plan').preload('cliente').paginate(page, perPage)
+        return suscripciones
     }
 
     // Delete
