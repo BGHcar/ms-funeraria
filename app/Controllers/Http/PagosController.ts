@@ -50,4 +50,12 @@ export default class PagosController {
         let pagos:Pago[] = await Pago.query().where('suscripcion_id', params.id).preload('suscripcion').paginate(page, perPage)
         return pagos
     }
+
+    // Delete a Payment by id
+
+    public async delete({ params, response }: HttpContextContract) {
+        const thePago = await Pago.findOrFail(params.id)
+        response.status(204)
+        return await thePago.delete()
+    }
 }
