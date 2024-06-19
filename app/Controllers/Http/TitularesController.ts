@@ -41,6 +41,8 @@ export default class TitularesController {
             theTitular.apellido = body.apellido
             theTitular.cedula = body.cedula
             theTitular.telefono = body.telefono
+            theTitular.edad = body.edad
+
             return theTitular.save()
         }
 

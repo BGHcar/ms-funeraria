@@ -99,6 +99,7 @@ export default class BeneficiariosController {
                 apellido: body.apellido,
                 cedula: body.cedula,
                 telefono: body.telefono,
+                edad: body.edad,
                 cliente_id: body.cliente_id
             })
             await theBeneficiario.save()
