@@ -7,7 +7,14 @@ import SuscripcionValidator from 'App/Validators/SuscripcionValidator'
 
 export default class SuscripcionesController {
 
-
+    public async findAllByTitular({ params, response }: HttpContextContract) {
+        try {
+            let suscripcion: Suscripcion[] = await Suscripcion.query().where('cliente_id', params.id).preload('cliente').paginate(1, 20)
+            return suscripcion
+        } catch (error) {
+            return response.status(404).json({ message: 'Titular no encontrado' })
+        }
+    }
     // Create 
     public async create({ request, response }: HttpContextContract) {
 

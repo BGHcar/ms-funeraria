@@ -126,5 +126,6 @@ export default class BeneficiariosController {
         const theClient = await Cliente.query().where('id', titular.cliente_id).preload('planes').firstOrFail()
         return ([titular.beneficiarios.length, theClient.planes[0].max_beneficiarios])
     }
+
     
 }

@@ -1,6 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Cliente from 'App/Models/Cliente'
 
 import Servicio from 'App/Models/Servicio'
+import Titular from 'App/Models/Titular'
 
 import ServicioValidator from 'App/Validators/ServicioValidator'
 
@@ -61,4 +63,10 @@ export default class ServiciosController {
         response.status(204)
         return await theServicio.delete()
     }
+    public async findTitularAndPlan(titular_id: number) {
+        const titular = await Titular.query().where('id', titular_id).preload('cliente').firstOrFail()
+        const theClient = await Cliente.query().where('id', titular.cliente_id).preload('planes').firstOrFail()
+        return ([titular.beneficiarios.length, theClient.planes[0].max_beneficiarios])
+    }
+    
 }
