@@ -61,4 +61,17 @@ export default class SuscripcionesController {
         response.status(204)
         return await theSuscripcion.delete()
     }
+
+    // Update
+
+    public async update({ request, response, params }: HttpContextContract) {
+        const theSuscripcion = await Suscripcion.findOrFail(params.id)
+        const data = await request.validate(SuscripcionValidator)
+        const theCliente = await Cliente.findOrFail(data.cliente?.id)
+        const thePlan = await Plan.findOrFail(data.plan?.id)
+        theSuscripcion.cliente_id = theCliente.id
+        theSuscripcion.plan_id = thePlan.id
+        await theSuscripcion.save()
+        return response.json(theSuscripcion)
+    }
 }
